@@ -45,14 +45,19 @@ export default async function ToolBearbeiten({
         </p>
       )}
 
-      <p className="mt-4 text-sm text-slate-500">
-        Affiliate-Link:{" "}
-        <span className="font-mono">
-          {basisUrl}/go/{t.short_code}
-        </span>{" "}
-        – aus einem Artikel heraus mit{" "}
-        <span className="font-mono">?a=&lt;artikel-slug&gt;</span>.
-      </p>
+      <div className="mt-4 space-y-1 rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
+        <p>
+          Im Artikel verlinken:{" "}
+          <span className="font-mono">[Anzeigetext](/go/{t.short_code})</span>
+          {" "}– die Zuordnung zum Artikel passiert automatisch.
+        </p>
+        <p>
+          Direktlink (z.&nbsp;B. Newsletter, Social):{" "}
+          <span className="font-mono">
+            {basisUrl}/go/{t.short_code}
+          </span>
+        </p>
+      </div>
 
       <div className="mt-6">
         <ToolFormular

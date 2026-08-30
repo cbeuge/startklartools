@@ -38,7 +38,7 @@ export default async function ArtikelSeite({
   if (!daten) notFound();
 
   const { artikel, tools } = daten;
-  const html = renderMarkdown(artikel.content_md);
+  const html = renderMarkdown(artikel.content_md, { artikelSlug: artikel.slug });
 
   return (
     <article className="article">

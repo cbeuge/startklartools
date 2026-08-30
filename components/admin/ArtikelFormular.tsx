@@ -188,12 +188,19 @@ export function ArtikelFormular({
             <div>1. Nummerierte Liste</div>
             <div>[ ] offener Haken &nbsp;·&nbsp; [x] erledigter Haken</div>
             <div>[Linktext](https://…)</div>
+            <div>[Tool-Name](/go/kurzcode) &nbsp;→&nbsp; getrackter Affiliate-Link</div>
             <div>![Bildtext](https://…/bild.jpg)</div>
             <div>&gt; Zitat</div>
           </div>
           <p className="mt-2 font-sans">
             Für einen Absatzwechsel eine Leerzeile lassen. Eine einzelne neue
             Zeile bleibt im selben Absatz, wird aber umgebrochen.
+          </p>
+          <p className="mt-1 font-sans">
+            Affiliate-Links immer über{" "}
+            <span className="font-mono">/go/kurzcode</span> setzen, nicht direkt
+            auf die Anbieter-Seite – sonst wird der Klick nicht gezählt. Den
+            Kurzcode findest du beim jeweiligen Tool.
           </p>
         </details>
         <div className="mt-2 grid gap-4 lg:grid-cols-2">
