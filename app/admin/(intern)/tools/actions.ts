@@ -121,6 +121,7 @@ export async function toolSpeichern(
   }
 
   revalidatePath("/admin/tools");
+  revalidatePath("/", "layout");
   redirect(`/admin/tools/${toolId}?gespeichert=1`);
 }
 
@@ -131,5 +132,6 @@ export async function toolLoeschen(formData: FormData): Promise<void> {
     await pool.query("DELETE FROM tools WHERE id = $1", [id]);
   }
   revalidatePath("/admin/tools");
+  revalidatePath("/", "layout");
   redirect("/admin/tools");
 }

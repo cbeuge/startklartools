@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { oeffentlicherArtikel, veroeffentlichteArtikelSlugs } from "@/lib/oeffentlich";
+import { oeffentlicherArtikel } from "@/lib/oeffentlich";
 import { renderMarkdown } from "@/lib/markdown";
 
-export const revalidate = 300;
-
-export async function generateStaticParams() {
-  const rows = await veroeffentlichteArtikelSlugs();
-  return rows.map((r) => ({ slug: r.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

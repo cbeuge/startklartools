@@ -27,12 +27,12 @@ export type ToolLink = {
   kategorie_slug: string | null;
 };
 
-// Oberkategorien für die Themen-Kacheln und den Footer.
+// Veröffentlichte Oberkategorien für die Themen-Kacheln und den Footer.
 export function themenKategorien(): Promise<OeffKategorie[]> {
   return query<OeffKategorie>(`
     SELECT id, slug, name, parent_id
       FROM categories
-     WHERE parent_id IS NULL
+     WHERE parent_id IS NULL AND status = 'veroeffentlicht'
      ORDER BY sort_order, name
   `);
 }
@@ -71,6 +71,7 @@ export function veroeffentlichteTools(): Promise<ToolLink[]> {
       FROM tools t
       LEFT JOIN categories c ON c.id = t.category_id
      WHERE t.status = 'veroeffentlicht'
+       AND (c.id IS NULL OR c.status = 'veroeffentlicht')
      ORDER BY c.sort_order NULLS LAST, c.name NULLS LAST, t.name
   `);
 }
@@ -135,7 +136,7 @@ export async function oeffentlicheKategorie(slug: string): Promise<{
   tools: Pick<ToolLink, "name" | "short_code" | "short_description">[];
 } | null> {
   const kategorie = await queryOne<OeffKategorie>(
-    "SELECT id, slug, name, parent_id FROM categories WHERE slug = $1",
+    "SELECT id, slug, name, parent_id FROM categories WHERE slug = $1 AND status = 'veroeffentlicht'",
     [slug],
   );
   if (!kategorie) return null;
@@ -148,7 +149,7 @@ export async function oeffentlicheKategorie(slug: string): Promise<{
       LEFT JOIN categories c ON c.id = a.category_id
      WHERE a.status = 'veroeffentlicht'
        AND (a.category_id = $1
-            OR a.category_id IN (SELECT id FROM categories WHERE parent_id = $1))
+            OR a.category_id IN (SELECT id FROM categories WHERE parent_id = $1 AND status = 'veroeffentlicht'))
      ORDER BY a.published_at DESC NULLS LAST, a.id DESC
   `,
     [kategorie.id],
@@ -162,7 +163,7 @@ export async function oeffentlicheKategorie(slug: string): Promise<{
       FROM tools t
      WHERE t.status = 'veroeffentlicht'
        AND (t.category_id = $1
-            OR t.category_id IN (SELECT id FROM categories WHERE parent_id = $1))
+            OR t.category_id IN (SELECT id FROM categories WHERE parent_id = $1 AND status = 'veroeffentlicht'))
      ORDER BY t.name
   `,
     [kategorie.id],
@@ -172,7 +173,9 @@ export async function oeffentlicheKategorie(slug: string): Promise<{
 }
 
 export function alleKategorienSlugs(): Promise<{ slug: string }[]> {
-  return query<{ slug: string }>("SELECT slug FROM categories");
+  return query<{ slug: string }>(
+    "SELECT slug FROM categories WHERE status = 'veroeffentlicht'",
+  );
 }
 
 // Zwei-Buchstaben-Kürzel für die Themen-Kachel (GR, FI …).

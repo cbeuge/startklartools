@@ -110,6 +110,7 @@ export async function artikelSpeichern(
   }
 
   revalidatePath("/admin/artikel");
+  revalidatePath("/", "layout");
   redirect(`/admin/artikel/${artikelId}?gespeichert=1`);
 }
 
@@ -120,5 +121,6 @@ export async function artikelLoeschen(formData: FormData): Promise<void> {
     await pool.query("DELETE FROM articles WHERE id = $1", [id]);
   }
   revalidatePath("/admin/artikel");
+  revalidatePath("/", "layout");
   redirect("/admin/artikel");
 }

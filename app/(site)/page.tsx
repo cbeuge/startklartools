@@ -7,7 +7,9 @@ import {
   type ToolLink,
 } from "@/lib/oeffentlich";
 
-export const revalidate = 300;
+// Dynamisch rendern: die Seite spiegelt sofort wider, was im Admin
+// veröffentlicht wird. Die paar Postgres-Abfragen sind vernachlässigbar.
+export const dynamic = "force-dynamic";
 
 function toolsNachKategorie(tools: ToolLink[]) {
   const gruppen = new Map<

@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { oeffentlicheKategorie, alleKategorienSlugs } from "@/lib/oeffentlich";
+import { oeffentlicheKategorie } from "@/lib/oeffentlich";
 
-export const revalidate = 300;
-
-export async function generateStaticParams() {
-  const rows = await alleKategorienSlugs();
-  return rows.map((r) => ({ slug: r.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
