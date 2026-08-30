@@ -191,7 +191,7 @@ export default async function Startseite() {
               gewünscht hätte.“
             </p>
             <div className="trust-name">
-              — Gründer von startklar.tools, selbst nebenberuflich unterwegs
+              Gründer von startklar.tools, selbst nebenberuflich unterwegs
             </div>
           </div>
         </div>
