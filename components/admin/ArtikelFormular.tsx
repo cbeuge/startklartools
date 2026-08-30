@@ -179,7 +179,24 @@ export function ArtikelFormular({
 
       <div>
         <span className="text-sm text-slate-600">Inhalt (Markdown)</span>
-        <div className="mt-1 grid gap-4 lg:grid-cols-2">
+        <details className="mt-1 text-xs text-slate-500">
+          <summary className="cursor-pointer">Formatierung</summary>
+          <div className="mt-2 space-y-0.5 rounded border border-slate-200 bg-slate-50 p-3 font-mono">
+            <div>## Überschrift &nbsp;·&nbsp; ### kleinere Überschrift</div>
+            <div>**fett** &nbsp;·&nbsp; *kursiv*</div>
+            <div>- Aufzählungspunkt (Bindestrich, dann Leerzeichen)</div>
+            <div>1. Nummerierte Liste</div>
+            <div>[ ] offener Haken &nbsp;·&nbsp; [x] erledigter Haken</div>
+            <div>[Linktext](https://…)</div>
+            <div>![Bildtext](https://…/bild.jpg)</div>
+            <div>&gt; Zitat</div>
+          </div>
+          <p className="mt-2 font-sans">
+            Für einen Absatzwechsel eine Leerzeile lassen. Eine einzelne neue
+            Zeile bleibt im selben Absatz, wird aber umgebrochen.
+          </p>
+        </details>
+        <div className="mt-2 grid gap-4 lg:grid-cols-2">
           <textarea
             value={contentMd}
             onChange={(e) => setContentMd(e.target.value)}

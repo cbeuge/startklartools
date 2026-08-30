@@ -526,6 +526,16 @@
 .site-shell .prose i {
   font-style: italic;
 }
+/* Checklisten */
+.site-shell .prose li.aufgabe {
+  list-style: none;
+  margin-left: -22px;
+}
+.site-shell .prose li.aufgabe input[type="checkbox"] {
+  margin-right: 9px;
+  accent-color: var(--stamp);
+  transform: translateY(1px);
+}
 .site-shell .prose a {
   color: var(--stamp-dark);
   border-bottom: 1px solid var(--stamp);

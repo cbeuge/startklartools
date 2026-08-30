@@ -11,3 +11,12 @@
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
 }
+
+/* Checklisten in der Artikel-Vorschau (Admin) */
+.prose li.aufgabe {
+  list-style: none;
+  margin-left: -1.25rem;
+}
+.prose li.aufgabe input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
