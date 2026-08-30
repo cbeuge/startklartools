@@ -8,7 +8,6 @@ export function SeitenKopf() {
           startklar<span className="dot">.</span>tools
         </Link>
         <nav className="navlinks">
-          <Link href="/">Start</Link>
           <Link href="/#themen">Themen</Link>
           <Link href="/#tools">Tools</Link>
           <Link href="/#guides">Guides</Link>
