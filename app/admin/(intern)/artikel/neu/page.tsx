@@ -1,0 +1,35 @@
+import { alleKategorien } from "@/lib/kategorien";
+import { toolsFuerAuswahl } from "@/lib/tools";
+import { ArtikelFormular } from "@/components/admin/ArtikelFormular";
+
+export default async function NeuerArtikel() {
+  const [kategorien, tools] = await Promise.all([
+    alleKategorien(),
+    toolsFuerAuswahl(),
+  ]);
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold">Neuer Artikel</h1>
+      <div className="mt-6">
+        <ArtikelFormular
+          kategorien={kategorien}
+          tools={tools}
+          initial={{
+            id: null,
+            slug: "",
+            title: "",
+            excerpt: "",
+            content_md: "",
+            category_id: null,
+            status: "entwurf",
+            meta_title: "",
+            meta_description: "",
+            hero_image_url: "",
+            toolIds: [],
+          }}
+        />
+      </div>
+    </div>
+  );
+}
