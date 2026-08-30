@@ -29,10 +29,12 @@ export type ToolZeile = Pick<
 // Ein Tool gilt als in einem Artikel verlinkt, wenn es entweder über die
 // "Verlinkte Tools"-Haken zugeordnet ist oder wenn im Text ein
 // /go/<short_code>-Link steht.
+const GO_REGEX = `'(^|[^a-z0-9_-])go/' || t.short_code || '($|[^a-z0-9_-])'`;
+
 const VERLINKT_BEDINGUNG = `(
   EXISTS (SELECT 1 FROM article_tools at
             WHERE at.article_id = a.id AND at.tool_id = t.id)
-  OR a.content_md ~ ('/go/' || t.short_code || '($|[^a-z0-9_-])')
+  OR a.content_md ~ (${GO_REGEX})
 )`;
 
 export function toolsFuerAuswahl(): Promise<ToolAuswahl[]> {
@@ -70,7 +72,7 @@ export function toolArtikel(toolId: number): Promise<ToolArtikel[]> {
     SELECT a.id, a.title, a.status,
            EXISTS (SELECT 1 FROM article_tools at
                      WHERE at.article_id = a.id AND at.tool_id = t.id) AS via_kasten,
-           (a.content_md ~ ('/go/' || t.short_code || '($|[^a-z0-9_-])')) AS via_text
+           (a.content_md ~ (${GO_REGEX})) AS via_text
       FROM articles a
       CROSS JOIN tools t
      WHERE t.id = $1 AND ${VERLINKT_BEDINGUNG}

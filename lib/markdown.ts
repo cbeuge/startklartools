@@ -15,8 +15,10 @@ function checklistenNormalisieren(md: string): string {
   });
 }
 
-// Erkennt einen /go/<short_code>-Link, egal ob relativ oder mit voller Domain.
-const GO_LINK = /^(?:https?:\/\/[^/]+)?\/go\/([a-z0-9_-]+)(\?[^#]*)?(#.*)?$/i;
+// Erkennt einen go/<short_code>-Link – mit oder ohne fuehrenden Schraegstrich,
+// relativ oder mit voller Domain. Die Ausgabe ist immer der absolute Pfad
+// /go/<code>, damit ein fehlender Schraegstrich nicht auf /ratgeber/go/... zeigt.
+const GO_LINK = /^(?:https?:\/\/[^/]+)?\/?go\/([a-z0-9_-]+)(\?[^#]*)?(#.*)?$/i;
 
 export type MarkdownOptions = {
   // Slug des Artikels, aus dem gerendert wird. Wird an /go/-Links als ?a=
