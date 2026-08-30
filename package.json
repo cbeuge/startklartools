@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3006",
+    "dev": "next dev -p 3007",
     "build": "next build",
-    "start": "NODE_OPTIONS=--dns-result-order=ipv4first next start -H 127.0.0.1 -p 3006",
+    "start": "NODE_OPTIONS=--dns-result-order=ipv4first next start -H 127.0.0.1 -p 3007",
     "lint": "eslint",
     "migrate": "tsx db/migrate.ts",
     "seed:admin": "tsx db/seed-admin.ts"
