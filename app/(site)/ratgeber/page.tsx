@@ -26,7 +26,7 @@ function Medien({ guide }: { guide: GuideKarte }) {
     );
   }
   return (
-    <div className="g-media g-media-leer">
+    <div className="g-media-leer">
       <span>{guide.kategorie_name ? kuerzel(guide.kategorie_name) : "ST"}</span>
     </div>
   );
