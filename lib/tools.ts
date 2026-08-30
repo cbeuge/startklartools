@@ -24,7 +24,16 @@ export type ToolAuswahl = Pick<Tool, "id" | "name" | "short_code">;
 export type ToolZeile = Pick<
   Tool,
   "id" | "name" | "slug" | "short_code" | "status"
-> & { kategorie_name: string | null; klicks: number };
+> & { kategorie_name: string | null; klicks: number; artikel_anzahl: number };
+
+// Ein Tool gilt als in einem Artikel verlinkt, wenn es entweder über die
+// "Verlinkte Tools"-Haken zugeordnet ist oder wenn im Text ein
+// /go/<short_code>-Link steht.
+const VERLINKT_BEDINGUNG = `(
+  EXISTS (SELECT 1 FROM article_tools at
+            WHERE at.article_id = a.id AND at.tool_id = t.id)
+  OR a.content_md ~ ('/go/' || t.short_code || '($|[^a-z0-9_-])')
+)`;
 
 export function toolsFuerAuswahl(): Promise<ToolAuswahl[]> {
   return query<ToolAuswahl>(
@@ -37,11 +46,38 @@ export function toolListe(): Promise<ToolZeile[]> {
     SELECT t.id, t.name, t.slug, t.short_code, t.status,
            c.name AS kategorie_name,
            (SELECT count(*)::int FROM clicks k
-              WHERE k.tool_id = t.id AND NOT k.is_bot) AS klicks
+              WHERE k.tool_id = t.id AND NOT k.is_bot) AS klicks,
+           (SELECT count(*)::int FROM articles a WHERE ${VERLINKT_BEDINGUNG})
+             AS artikel_anzahl
       FROM tools t
       LEFT JOIN categories c ON c.id = t.category_id
      ORDER BY t.name
   `);
+}
+
+export type ToolArtikel = {
+  id: number;
+  title: string;
+  status: string;
+  via_kasten: boolean;
+  via_text: boolean;
+};
+
+// Artikel, in denen dieses Tool verlinkt ist – für die Tool-Bearbeitungsseite.
+export function toolArtikel(toolId: number): Promise<ToolArtikel[]> {
+  return query<ToolArtikel>(
+    `
+    SELECT a.id, a.title, a.status,
+           EXISTS (SELECT 1 FROM article_tools at
+                     WHERE at.article_id = a.id AND at.tool_id = t.id) AS via_kasten,
+           (a.content_md ~ ('/go/' || t.short_code || '($|[^a-z0-9_-])')) AS via_text
+      FROM articles a
+      CROSS JOIN tools t
+     WHERE t.id = $1 AND ${VERLINKT_BEDINGUNG}
+     ORDER BY a.title
+  `,
+    [toolId],
+  );
 }
 
 export function tool(id: number): Promise<Tool | null> {

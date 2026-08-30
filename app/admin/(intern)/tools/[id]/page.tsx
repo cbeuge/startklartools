@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { tool } from "@/lib/tools";
+import { tool, toolArtikel } from "@/lib/tools";
 import { alleKategorien } from "@/lib/kategorien";
 import { ToolFormular } from "@/components/admin/ToolFormular";
 import { toolLoeschen } from "../actions";
@@ -15,9 +16,10 @@ export default async function ToolBearbeiten({
   const toolId = Number(id);
   if (!Number.isInteger(toolId)) notFound();
 
-  const [t, kategorien] = await Promise.all([
+  const [t, kategorien, artikel] = await Promise.all([
     tool(toolId),
     alleKategorien(),
+    toolArtikel(toolId),
   ]);
   if (!t) notFound();
 
@@ -57,6 +59,38 @@ export default async function ToolBearbeiten({
             {basisUrl}/go/{t.short_code}
           </span>
         </p>
+      </div>
+
+      <div className="mt-6 rounded border border-slate-200 p-4">
+        <h2 className="text-sm font-medium text-slate-600">Verlinkt in</h2>
+        {artikel.length === 0 ? (
+          <p className="mt-2 text-sm text-slate-400">
+            In noch keinem Artikel verlinkt.
+          </p>
+        ) : (
+          <ul className="mt-2 space-y-1 text-sm">
+            {artikel.map((a) => (
+              <li key={a.id} className="flex items-center gap-2">
+                <Link
+                  href={`/admin/artikel/${a.id}`}
+                  className="font-medium text-marke hover:underline"
+                >
+                  {a.title}
+                </Link>
+                {a.status === "entwurf" && (
+                  <span className="text-xs text-slate-400">(Entwurf)</span>
+                )}
+                <span className="text-xs text-slate-400">
+                  {a.via_kasten && a.via_text
+                    ? "Kasten + Textlink"
+                    : a.via_kasten
+                      ? "Empfehlungskasten"
+                      : "Textlink"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="mt-6">

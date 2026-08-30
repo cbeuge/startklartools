@@ -28,6 +28,7 @@ export default async function ToolsListe() {
             <th className="py-2">Short-Link</th>
             <th className="py-2">Kategorie</th>
             <th className="py-2">Status</th>
+            <th className="py-2 text-right">Artikel</th>
             <th className="py-2 text-right">Klicks</th>
           </tr>
         </thead>
@@ -57,12 +58,24 @@ export default async function ToolsListe() {
                   {STATUS_LABEL[t.status] ?? t.status}
                 </span>
               </td>
+              <td className="py-2 text-right tabular-nums">
+                {t.artikel_anzahl > 0 ? (
+                  <Link
+                    href={`/admin/tools/${t.id}`}
+                    className="text-marke hover:underline"
+                  >
+                    {t.artikel_anzahl}
+                  </Link>
+                ) : (
+                  <span className="text-slate-400">0</span>
+                )}
+              </td>
               <td className="py-2 text-right tabular-nums">{t.klicks}</td>
             </tr>
           ))}
           {tools.length === 0 && (
             <tr>
-              <td colSpan={5} className="py-8 text-center text-slate-400">
+              <td colSpan={6} className="py-8 text-center text-slate-400">
                 Noch keine Tools.
               </td>
             </tr>
