@@ -609,6 +609,14 @@
   font-size: 13px;
   color: var(--ink-soft);
 }
+.site-shell .aff-stern {
+  color: var(--stamp);
+  font-weight: 700;
+}
+.site-shell .prose sup.aff-stern {
+  font-size: 0.7em;
+  margin-left: 1px;
+}
 
 /* Übersichtslisten (Themenseite) */
 .site-shell .list-links {

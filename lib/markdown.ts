@@ -78,7 +78,15 @@ export function renderMarkdown(md: string, opts: MarkdownOptions = {}): string {
     },
   });
 
-  // marked setzt keine Klasse auf Checklisten-Eintraege. Nachtraeglich eine
-  // vergeben, damit die Ausgabe den Aufzaehlungspunkt weglassen kann.
-  return sauber.replace(/<li>(\s*)<input\b/g, '<li class="aufgabe">$1<input');
+  return (
+    sauber
+      // marked setzt keine Klasse auf Checklisten-Eintraege. Nachtraeglich eine
+      // vergeben, damit die Ausgabe den Aufzaehlungspunkt weglassen kann.
+      .replace(/<li>(\s*)<input\b/g, '<li class="aufgabe">$1<input')
+      // Jeden /go/-Link als Affiliate-Link kennzeichnen.
+      .replace(
+        /(<a\b[^>]*\bhref="\/go\/[^"]*"[^>]*>)(.*?)(<\/a>)/g,
+        '$1$2$3<sup class="aff-stern">*</sup>',
+      )
+  );
 }

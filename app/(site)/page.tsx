@@ -6,6 +6,7 @@ import {
   kuerzel,
   type ToolLink,
 } from "@/lib/oeffentlich";
+import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
 
 // Dynamisch rendern: die Seite spiegelt sofort wider, was im Admin
 // veröffentlicht wird. Die paar Postgres-Abfragen sind vernachlässigbar.
@@ -176,7 +177,10 @@ export default async function Startseite() {
                     {gruppe.tools.slice(0, 4).map((tool) => (
                       <li key={tool.short_code}>
                         <a href={`/go/${tool.short_code}`} rel="sponsored nofollow">
-                          {tool.name} <span className="arr">→</span>
+                          <span>
+                            {tool.name} <span className="aff-stern">*</span>
+                          </span>
+                          <span className="arr">→</span>
                         </a>
                       </li>
                     ))}
@@ -189,6 +193,7 @@ export default async function Startseite() {
                 </div>
               ))}
             </div>
+            <AffiliateHinweis breit />
           </div>
         </section>
       )}

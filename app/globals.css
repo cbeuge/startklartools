@@ -12,11 +12,15 @@
   }
 }
 
-/* Checklisten in der Artikel-Vorschau (Admin) */
+/* Artikel-Vorschau (Admin) */
 .prose li.aufgabe {
   list-style: none;
   margin-left: -1.25rem;
 }
 .prose li.aufgabe input[type="checkbox"] {
   margin-right: 0.5rem;
+}
+.prose sup.aff-stern {
+  color: #b23a2e;
+  font-weight: 700;
 }

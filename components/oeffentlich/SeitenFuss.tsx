@@ -42,6 +42,9 @@ export function SeitenFuss({ themen }: { themen: OeffKategorie[] }) {
                 <Link href="/#tools">Tools</Link>
               </li>
               <li>
+                <Link href="/werbekennzeichnung">Werbekennzeichnung</Link>
+              </li>
+              <li>
                 <Link href="/impressum">Impressum</Link>
               </li>
               <li>
@@ -56,7 +59,15 @@ export function SeitenFuss({ themen }: { themen: OeffKategorie[] }) {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} startklar.tools</span>
-          <span>Enthält Affiliate-Links</span>
+          <span>
+            <span className="aff-stern">*</span> Enthält Affiliate-Links.{" "}
+            <Link
+              href="/werbekennzeichnung"
+              style={{ borderBottom: "1px solid var(--stamp)" }}
+            >
+              Was heißt das?
+            </Link>
+          </span>
         </div>
       </div>
     </footer>

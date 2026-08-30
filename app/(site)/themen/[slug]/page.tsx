@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { oeffentlicheKategorie } from "@/lib/oeffentlich";
+import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +67,9 @@ export default async function ThemenSeite({
               {tools.map((tool) => (
                 <div className="tool-row" key={tool.short_code}>
                   <div>
-                    <div className="tr-name">{tool.name}</div>
+                    <div className="tr-name">
+                      {tool.name} <span className="aff-stern">*</span>
+                    </div>
                     {tool.short_description && (
                       <div className="tr-desc">{tool.short_description}</div>
                     )}
@@ -81,9 +84,7 @@ export default async function ThemenSeite({
                 </div>
               ))}
             </div>
-            <p className="disclosure" style={{ maxWidth: "none" }}>
-              Mit „Zum Anbieter“ markierte Links sind Affiliate-Links.
-            </p>
+            <AffiliateHinweis breit />
           </div>
         )}
       </div>

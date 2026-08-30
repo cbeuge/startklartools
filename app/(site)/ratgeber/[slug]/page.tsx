@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { oeffentlicherArtikel } from "@/lib/oeffentlich";
 import { renderMarkdown } from "@/lib/markdown";
+import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +40,7 @@ export default async function ArtikelSeite({
 
   const { artikel, tools } = daten;
   const html = renderMarkdown(artikel.content_md, { artikelSlug: artikel.slug });
+  const hatAffiliate = tools.length > 0 || html.includes('href="/go/');
 
   return (
     <article className="article">
@@ -75,7 +77,9 @@ export default async function ArtikelSeite({
             {tools.map((tool) => (
               <div className="tool-row" key={tool.short_code}>
                 <div>
-                  <div className="tr-name">{tool.name}</div>
+                  <div className="tr-name">
+                    {tool.name} <span className="aff-stern">*</span>
+                  </div>
                   {tool.short_description && (
                     <div className="tr-desc">{tool.short_description}</div>
                   )}
@@ -92,11 +96,7 @@ export default async function ArtikelSeite({
           </div>
         )}
 
-        <p className="disclosure">
-          Mit „Zum Anbieter“ markierte Links sind Affiliate-Links. Buchst du
-          darüber, erhalten wir eine Provision. Für dich ändert sich am Preis
-          nichts.
-        </p>
+        {hatAffiliate && <AffiliateHinweis />}
       </div>
     </article>
   );
