@@ -25,7 +25,7 @@ export function NewsletterFormular() {
         {pending ? "…" : "Anmelden"}
       </button>
       {state.ok && (
-        <p className="hinweis">Fast geschafft — bestätige den Link in der E-Mail.</p>
+        <p className="hinweis">Fast geschafft. Bestätige den Link in der E-Mail.</p>
       )}
       {state.error && (
         <p className="hinweis" style={{ color: "var(--stamp-dark)" }}>

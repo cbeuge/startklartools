@@ -18,7 +18,7 @@ export function SeitenFuss({ themen }: { themen: OeffKategorie[] }) {
                 maxWidth: 280,
               }}
             >
-              Guides und Tools für den Start in die Selbstständigkeit — ohne
+              Guides und Tools für den Start in die Selbstständigkeit, ohne
               Umwege.
             </p>
           </div>
@@ -36,7 +36,7 @@ export function SeitenFuss({ themen }: { themen: OeffKategorie[] }) {
             <h4>Seite</h4>
             <ul>
               <li>
-                <Link href="/#guides">Guides</Link>
+                <Link href="/ratgeber">Guides</Link>
               </li>
               <li>
                 <Link href="/#tools">Tools</Link>

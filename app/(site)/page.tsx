@@ -46,11 +46,11 @@ export default async function Startseite() {
             <div className="eyebrow mono">Für Kleingewerbe &amp; Freiberufler</div>
             <h1>Startklar für die Selbstständigkeit.</h1>
             <p className="lead">
-              Ehrliche Guides für jeden Schritt in die Selbstständigkeit — und
+              Ehrliche Guides für jeden Schritt in die Selbstständigkeit, und
               die Tools, die dabei wirklich helfen.
             </p>
             <div className="btnrow">
-              <Link href="/#guides" className="btn-primary">
+              <Link href="/ratgeber" className="btn-primary">
                 Guides durchstöbern
               </Link>
               <Link href="/#tools" className="btn-secondary">
@@ -145,6 +145,18 @@ export default async function Startseite() {
                 </Link>
               ))}
             </div>
+            <p style={{ marginTop: 28 }}>
+              <Link
+                href="/ratgeber"
+                style={{
+                  fontWeight: 600,
+                  color: "var(--ink)",
+                  borderBottom: "1px solid var(--stamp)",
+                }}
+              >
+                Alle Guides ansehen
+              </Link>
+            </p>
           </div>
         </section>
       )}
@@ -186,7 +198,7 @@ export default async function Startseite() {
           <div className="trust-badge">1P</div>
           <div>
             <p>
-              „Ich baue Websites und Tools für Selbstständige seit Jahren —
+              „Ich baue Websites und Tools für Selbstständige seit Jahren.
               startklar.tools ist die Seite, die ich mir am Anfang selbst
               gewünscht hätte.“
             </p>

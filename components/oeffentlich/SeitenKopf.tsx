@@ -10,7 +10,7 @@ export function SeitenKopf() {
         <nav className="navlinks">
           <Link href="/#themen">Themen</Link>
           <Link href="/#tools">Tools</Link>
-          <Link href="/#guides">Guides</Link>
+          <Link href="/ratgeber">Guides</Link>
         </nav>
         <Link href="/#themen" className="nav-cta">
           Loslegen

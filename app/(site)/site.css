@@ -636,6 +636,113 @@
   margin-top: 4px;
 }
 
+/* Guide-Übersicht */
+.site-shell .g-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 8px;
+}
+.site-shell .g-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.site-shell .g-card {
+  display: block;
+}
+.site-shell .g-card:hover h3 {
+  color: var(--stamp-dark);
+}
+.site-shell .g-media {
+  position: relative;
+  padding-top: 56.25%;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--paper-raised);
+}
+.site-shell .g-media > * {
+  position: absolute;
+  inset: 0;
+}
+.site-shell .g-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.site-shell .g-media-leer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.site-shell .g-media-leer span {
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  color: var(--stamp);
+  font-size: 20px;
+  border: 1.5px solid var(--stamp);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.site-shell .g-meta {
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin: 14px 0 8px;
+}
+.site-shell .g-card h3 {
+  font-size: 18px;
+  line-height: 1.25;
+}
+.site-shell .g-card-gross h3 {
+  font-size: 22px;
+}
+.site-shell .g-card p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.site-shell .g-date {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+}
+.site-shell .g-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 40px 0;
+}
+.site-shell .g-pill {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--white);
+}
+.site-shell .g-pill:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.site-shell .g-pill-aktiv {
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+
 .site-shell .legal {
   max-width: 720px;
   margin: 0 auto;
@@ -751,6 +858,10 @@
 @media (max-width: 880px) {
   .site-shell .navlinks {
     display: none;
+  }
+  .site-shell .g-featured,
+  .site-shell .g-grid {
+    grid-template-columns: 1fr;
   }
   .site-shell .hero-grid {
     grid-template-columns: 1fr;

@@ -16,6 +16,7 @@ export type GuideKarte = {
   published_at: string | null;
   kategorie_name: string | null;
   kategorie_slug: string | null;
+  lesezeit_min: number;
 };
 
 export type ToolLink = {
@@ -26,6 +27,16 @@ export type ToolLink = {
   kategorie_name: string | null;
   kategorie_slug: string | null;
 };
+
+// Gemeinsame Spaltenliste für Guide-Karten. lesezeit_min: grobe Schätzung
+// aus der Wortzahl (200 Wörter/Minute), mindestens 1.
+const GUIDE_COLS = `
+  a.slug, a.title, a.excerpt, a.hero_image_url, a.published_at,
+  c.name AS kategorie_name, c.slug AS kategorie_slug,
+  GREATEST(1, ceil(
+    coalesce(array_length(regexp_split_to_array(btrim(a.content_md), '\\s+'), 1), 1) / 200.0
+  ))::int AS lesezeit_min
+`;
 
 // Veröffentlichte Oberkategorien für die Themen-Kacheln und den Footer.
 export function themenKategorien(): Promise<OeffKategorie[]> {
@@ -40,8 +51,7 @@ export function themenKategorien(): Promise<OeffKategorie[]> {
 export function neuesteGuides(limit = 3): Promise<GuideKarte[]> {
   return query<GuideKarte>(
     `
-    SELECT a.slug, a.title, a.excerpt, a.hero_image_url, a.published_at,
-           c.name AS kategorie_name, c.slug AS kategorie_slug
+    SELECT ${GUIDE_COLS}
       FROM articles a
       LEFT JOIN categories c ON c.id = a.category_id
      WHERE a.status = 'veroeffentlicht'
@@ -52,15 +62,36 @@ export function neuesteGuides(limit = 3): Promise<GuideKarte[]> {
   );
 }
 
-export function alleGuides(): Promise<GuideKarte[]> {
-  return query<GuideKarte>(`
-    SELECT a.slug, a.title, a.excerpt, a.hero_image_url, a.published_at,
-           c.name AS kategorie_name, c.slug AS kategorie_slug
+// Guides für die Übersichtsseite. Ohne Kategorie: alle. Mit Kategorie-Slug:
+// nur die dieser Kategorie und ihrer veröffentlichten Unterkategorien.
+export function guidesUebersicht(kategorieSlug?: string): Promise<GuideKarte[]> {
+  if (!kategorieSlug) {
+    return query<GuideKarte>(`
+      SELECT ${GUIDE_COLS}
+        FROM articles a
+        LEFT JOIN categories c ON c.id = a.category_id
+       WHERE a.status = 'veroeffentlicht'
+       ORDER BY a.published_at DESC NULLS LAST, a.id DESC
+    `);
+  }
+  return query<GuideKarte>(
+    `
+    SELECT ${GUIDE_COLS}
       FROM articles a
       LEFT JOIN categories c ON c.id = a.category_id
      WHERE a.status = 'veroeffentlicht'
+       AND a.category_id IN (
+         SELECT id FROM categories
+          WHERE slug = $1 AND status = 'veroeffentlicht'
+          UNION
+         SELECT id FROM categories
+          WHERE status = 'veroeffentlicht'
+            AND parent_id = (SELECT id FROM categories WHERE slug = $1)
+       )
      ORDER BY a.published_at DESC NULLS LAST, a.id DESC
-  `);
+  `,
+    [kategorieSlug],
+  );
 }
 
 export function veroeffentlichteTools(): Promise<ToolLink[]> {
@@ -124,7 +155,9 @@ export async function oeffentlicherArtikel(slug: string): Promise<{
   return { artikel, tools };
 }
 
-export function veroeffentlichteArtikelSlugs(): Promise<{ slug: string; updated_at: string }[]> {
+export function veroeffentlichteArtikelSlugs(): Promise<
+  { slug: string; updated_at: string }[]
+> {
   return query<{ slug: string; updated_at: string }>(`
     SELECT slug, updated_at FROM articles WHERE status = 'veroeffentlicht'
   `);
@@ -143,8 +176,7 @@ export async function oeffentlicheKategorie(slug: string): Promise<{
 
   const artikel = await query<GuideKarte>(
     `
-    SELECT a.slug, a.title, a.excerpt, a.hero_image_url, a.published_at,
-           c.name AS kategorie_name, c.slug AS kategorie_slug
+    SELECT ${GUIDE_COLS}
       FROM articles a
       LEFT JOIN categories c ON c.id = a.category_id
      WHERE a.status = 'veroeffentlicht'
@@ -185,4 +217,14 @@ export function kuerzel(name: string): string {
     return (worte[0]![0]! + worte[1]![0]!).toUpperCase();
   }
   return name.slice(0, 2).toUpperCase();
+}
+
+// "15. Jan. 2024"
+export function datum(iso: string | null): string {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("de-DE", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
