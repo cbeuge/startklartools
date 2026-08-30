@@ -1,0 +1,774 @@
+/*
+ * Öffentliche Seite. Aus dem Entwurf
+ * ##webseiten/14_startklar.tools/landingpage/index.html übernommen und unter
+ * .site-shell eingehängt, damit nichts in den Admin (Tailwind) durchschlägt.
+ * Schriften kommen über next/font (app/(site)/fonts.ts).
+ */
+
+.site-shell {
+  --paper: #f3f1ea;
+  --paper-raised: #ebe8de;
+  --ink: #1e2a25;
+  --ink-soft: #5b655f;
+  --stamp: #b23a2e;
+  --stamp-dark: #8e2c22;
+  --done: #2f6b4f;
+  --line: #d7d2c4;
+  --white: #fbfaf6;
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-source), "Source Sans 3", sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+.site-shell *,
+.site-shell *::before,
+.site-shell *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.site-shell h1,
+.site-shell h2,
+.site-shell h3 {
+  font-family: var(--font-zilla), "Zilla Slab", serif;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.site-shell .mono {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.site-shell a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-shell .wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.site-shell :focus-visible {
+  outline: 2px solid var(--stamp);
+  outline-offset: 3px;
+}
+
+/* Header */
+.site-shell .site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.site-shell .nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+.site-shell .logo {
+  font-family: var(--font-zilla), "Zilla Slab", serif;
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.site-shell .logo .dot {
+  color: var(--stamp);
+}
+.site-shell .navlinks {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+.site-shell .navlinks a {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.site-shell .navlinks a:hover {
+  color: var(--ink);
+  border-color: var(--stamp);
+}
+.site-shell .nav-cta {
+  background: var(--ink);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.site-shell .nav-cta:hover {
+  background: var(--stamp-dark);
+}
+
+/* Hero */
+.site-shell .hero {
+  padding: 88px 0 96px;
+}
+.site-shell .hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: center;
+}
+.site-shell .eyebrow {
+  font-size: 12.5px;
+  color: var(--stamp-dark);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.site-shell .eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: var(--stamp);
+}
+.site-shell .hero h1 {
+  font-size: 52px;
+  max-width: 560px;
+}
+.site-shell .hero p.lead {
+  font-size: 18px;
+  color: var(--ink-soft);
+  max-width: 480px;
+  margin: 24px 0 32px;
+}
+.site-shell .btnrow {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.site-shell .btn-primary {
+  background: var(--ink);
+  color: var(--white);
+  padding: 14px 26px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 2px;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.site-shell .btn-primary:hover {
+  background: var(--stamp-dark);
+  border-color: var(--stamp-dark);
+}
+.site-shell .btn-secondary {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: 13px 26px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.site-shell .btn-secondary:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Hero-Visual: Formularkarte + Stempel */
+.site-shell .hero-visual {
+  position: relative;
+}
+.site-shell .form-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 28px 26px;
+  box-shadow: 0 1px 0 var(--line);
+}
+.site-shell .form-card .fc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+.site-shell .fc-head .mono {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+.site-shell .fc-title {
+  font-family: var(--font-zilla), "Zilla Slab", serif;
+  font-weight: 600;
+  font-size: 16px;
+}
+.site-shell .fc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.site-shell .fc-item:last-child {
+  border-bottom: none;
+}
+.site-shell .fc-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--done);
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--done);
+  font-size: 11px;
+  font-weight: 700;
+}
+.site-shell .fc-check.pending {
+  border-color: var(--line);
+  color: transparent;
+}
+.site-shell .fc-text .fc-t1 {
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.site-shell .fc-text .fc-t2 {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+.site-shell .stamp-mark {
+  position: absolute;
+  right: -18px;
+  bottom: -22px;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  border: 2.5px solid var(--stamp);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-11deg);
+  background: rgba(178, 58, 46, 0.04);
+}
+.site-shell .stamp-mark span {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-weight: 700;
+  color: var(--stamp);
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+/* Abschnitte */
+.site-shell section {
+  padding: 72px 0;
+}
+.site-shell .section-head {
+  margin-bottom: 40px;
+  max-width: 560px;
+}
+.site-shell .section-head .mono {
+  font-size: 12px;
+  color: var(--stamp-dark);
+  margin-bottom: 10px;
+  display: block;
+}
+.site-shell .section-head h2 {
+  font-size: 30px;
+}
+
+.site-shell .themen-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.site-shell .theme-card {
+  background: var(--paper);
+  padding: 28px 20px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background 0.15s;
+}
+.site-shell .theme-card:hover {
+  background: var(--white);
+}
+.site-shell .theme-card .code {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--stamp);
+  font-weight: 700;
+  border: 1px solid var(--stamp);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.site-shell .theme-card h3 {
+  font-size: 17px;
+  margin-top: 20px;
+}
+.site-shell .theme-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+/* Guides */
+.site-shell .guides-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.site-shell .guide-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.site-shell .guide-tag {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  color: var(--done);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.site-shell .guide-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.site-shell .guide-card p {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.site-shell .guide-more {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--stamp-dark);
+  margin-top: auto;
+}
+
+/* Tools */
+.site-shell .tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.site-shell .tool-cat {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 22px;
+  background: var(--paper);
+}
+.site-shell .tool-cat h3 {
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+.site-shell .tool-cat ul {
+  list-style: none;
+}
+.site-shell .tool-cat li {
+  font-size: 14px;
+  padding: 9px 0;
+  border-top: 1px dashed var(--line);
+}
+.site-shell .tool-cat li:first-child {
+  border-top: none;
+}
+.site-shell .tool-cat li a {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink-soft);
+}
+.site-shell .tool-cat li a:hover {
+  color: var(--ink);
+}
+.site-shell .tool-cat li span.arr {
+  color: var(--stamp);
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+}
+.site-shell .tool-cat-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid var(--stamp);
+}
+
+/* Vertrauen */
+.site-shell .trust {
+  background: var(--paper-raised);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.site-shell .trust-inner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: start;
+  padding: 56px 0;
+}
+.site-shell .trust-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid var(--done);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-weight: 700;
+  color: var(--done);
+  font-size: 12px;
+}
+.site-shell .trust p {
+  font-size: 17px;
+  max-width: 640px;
+  font-family: var(--font-zilla), "Zilla Slab", serif;
+  font-weight: 500;
+}
+.site-shell .trust .trust-name {
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  font-family: var(--font-source), "Source Sans 3", sans-serif;
+  font-weight: 600;
+}
+
+/* Artikel */
+.site-shell .article {
+  padding: 56px 0 80px;
+}
+.site-shell .article-head {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.site-shell .article-head .mono {
+  font-size: 12px;
+  color: var(--stamp-dark);
+  display: block;
+  margin-bottom: 12px;
+}
+.site-shell .article-head h1 {
+  font-size: 40px;
+}
+.site-shell .article-hero {
+  max-width: 900px;
+  margin: 36px auto 0;
+}
+.site-shell .article-hero img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+.site-shell .prose {
+  max-width: 720px;
+  margin: 40px auto 0;
+  font-size: 17px;
+}
+.site-shell .prose > * + * {
+  margin-top: 20px;
+}
+.site-shell .prose h2 {
+  font-size: 24px;
+  margin-top: 40px;
+}
+.site-shell .prose h3 {
+  font-size: 19px;
+  margin-top: 28px;
+}
+.site-shell .prose ul,
+.site-shell .prose ol {
+  padding-left: 24px;
+}
+.site-shell .prose ul {
+  list-style: disc;
+}
+.site-shell .prose ol {
+  list-style: decimal;
+}
+.site-shell .prose li + li {
+  margin-top: 6px;
+}
+.site-shell .prose strong,
+.site-shell .prose b {
+  font-weight: 700;
+}
+.site-shell .prose em,
+.site-shell .prose i {
+  font-style: italic;
+}
+.site-shell .prose a {
+  color: var(--stamp-dark);
+  border-bottom: 1px solid var(--stamp);
+}
+.site-shell .prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 3px;
+}
+.site-shell .prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.site-shell .prose th,
+.site-shell .prose td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+}
+.site-shell .prose blockquote {
+  border-left: 3px solid var(--stamp);
+  padding-left: 16px;
+  color: var(--ink-soft);
+}
+
+/* Tool-Empfehlungen im Artikel */
+.site-shell .tool-box {
+  max-width: 720px;
+  margin: 48px auto 0;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--white);
+  padding: 24px;
+}
+.site-shell .tool-box > .mono {
+  font-size: 12px;
+  color: var(--stamp-dark);
+  display: block;
+  margin-bottom: 16px;
+}
+.site-shell .tool-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px dashed var(--line);
+}
+.site-shell .tool-row:first-of-type {
+  border-top: none;
+}
+.site-shell .tool-row .tr-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+.site-shell .tool-row .tr-desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+.site-shell .tool-row .btn-primary {
+  white-space: nowrap;
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.site-shell .disclosure {
+  max-width: 720px;
+  margin: 24px auto 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* Übersichtslisten (Themenseite) */
+.site-shell .list-links {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.site-shell .list-links li {
+  border-bottom: 1px solid var(--line);
+}
+.site-shell .list-links li a {
+  display: block;
+  padding: 18px 0;
+}
+.site-shell .list-links li a:hover .ll-title {
+  color: var(--stamp-dark);
+}
+.site-shell .ll-title {
+  font-family: var(--font-zilla), "Zilla Slab", serif;
+  font-weight: 600;
+  font-size: 18px;
+}
+.site-shell .ll-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.site-shell .legal {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.site-shell .legal h1 {
+  font-size: 34px;
+  margin-bottom: 24px;
+}
+.site-shell .legal :is(h2, h3) {
+  margin-top: 28px;
+  margin-bottom: 8px;
+}
+.site-shell .legal p,
+.site-shell .legal ul,
+.site-shell .legal ol,
+.site-shell .legal table {
+  margin-bottom: 14px;
+}
+.site-shell .legal ul {
+  list-style: disc;
+  padding-left: 22px;
+}
+.site-shell .legal ol {
+  list-style: decimal;
+  padding-left: 22px;
+}
+.site-shell .legal strong,
+.site-shell .legal b {
+  font-weight: 700;
+}
+.site-shell .legal table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+.site-shell .legal th,
+.site-shell .legal td {
+  border: 1px solid var(--line);
+  padding: 7px 9px;
+  text-align: left;
+}
+.site-shell .legal a {
+  color: var(--stamp-dark);
+  border-bottom: 1px solid var(--stamp);
+}
+
+/* Footer */
+.site-shell .site-footer {
+  padding: 64px 0 40px;
+}
+.site-shell .footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+}
+.site-shell .footer-grid h4 {
+  font-size: 12.5px;
+  margin-bottom: 16px;
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+.site-shell .footer-grid ul {
+  list-style: none;
+}
+.site-shell .footer-grid li {
+  margin-bottom: 9px;
+  font-size: 14px;
+}
+.site-shell .footer-grid li a:hover {
+  color: var(--stamp-dark);
+}
+.site-shell .newsletter input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--white);
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: var(--font-source), "Source Sans 3", sans-serif;
+}
+.site-shell .newsletter button {
+  width: 100%;
+  padding: 11px 12px;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.site-shell .newsletter button:hover {
+  background: var(--stamp-dark);
+}
+.site-shell .newsletter .hinweis {
+  font-size: 13px;
+  color: var(--done);
+  margin-top: 6px;
+}
+.site-shell .footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 880px) {
+  .site-shell .navlinks {
+    display: none;
+  }
+  .site-shell .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .site-shell .hero h1 {
+    font-size: 38px;
+  }
+  .site-shell .themen-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .site-shell .guides-grid {
+    grid-template-columns: 1fr;
+  }
+  .site-shell .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .site-shell .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .site-shell .stamp-mark {
+    display: none;
+  }
+  .site-shell .article-head h1 {
+    font-size: 30px;
+  }
+  .site-shell .tool-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
