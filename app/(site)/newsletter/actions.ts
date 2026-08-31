@@ -19,20 +19,28 @@ export async function newsletterEintragen(
 
   const token = randomBytes(24).toString("hex");
 
-  // Neue Adresse anlegen oder – solange noch nicht bestätigt – den Token
-  // erneuern. Eine bereits bestätigte Adresse bleibt unangetastet.
-  const res = await pool.query<{ token: string; confirmed_at: string | null }>(
-    `INSERT INTO newsletter_subscribers (email, token)
-     VALUES ($1, $2)
+  // Neue Adresse anlegen, oder eine noch nicht bestätigte bzw. abgemeldete
+  // reaktivieren – dann aber immer wieder über Double-Opt-in. Eine aktive,
+  // bestätigte Adresse bleibt unangetastet. last_mail_at drosselt auf eine
+  // Bestätigungsmail pro Adresse alle 10 Minuten.
+  const res = await pool.query<{ token: string }>(
+    `INSERT INTO newsletter_subscribers (email, token, last_mail_at)
+     VALUES ($1, $2, now())
      ON CONFLICT (email) DO UPDATE
-       SET token = EXCLUDED.token, unsubscribed_at = NULL
-     WHERE newsletter_subscribers.confirmed_at IS NULL
-     RETURNING token, confirmed_at`,
+       SET token = EXCLUDED.token,
+           confirmed_at = NULL,
+           unsubscribed_at = NULL,
+           last_mail_at = now()
+     WHERE (newsletter_subscribers.confirmed_at IS NULL
+            OR newsletter_subscribers.unsubscribed_at IS NOT NULL)
+       AND (newsletter_subscribers.last_mail_at IS NULL
+            OR newsletter_subscribers.last_mail_at < now() - interval '10 minutes')
+     RETURNING token`,
     [email, token],
   );
 
   const row = res.rows[0];
-  if (row && !row.confirmed_at) {
+  if (row) {
     const basis = process.env.NEXT_PUBLIC_BASE_URL ?? "";
     const link = `${basis}/newsletter/bestaetigen?token=${row.token}`;
     await sendeMail({
@@ -45,7 +53,7 @@ export async function newsletterEintragen(
     });
   }
 
-  // Immer neutral bestätigen, egal ob neu, schon angemeldet oder schon
-  // bestätigt – sonst verrät die Seite, welche Adressen eingetragen sind.
+  // Immer neutral bestätigen, egal ob neu, schon angemeldet, gedrosselt oder
+  // schon bestätigt – sonst verrät die Seite, welche Adressen eingetragen sind.
   return { ok: true };
 }

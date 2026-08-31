@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import {
   newsletterEintragen,
   type NewsletterState,
@@ -32,6 +33,10 @@ export function NewsletterFormular() {
           {state.error}
         </p>
       )}
+      <p className="nl-consent">
+        Du bekommst eine E-Mail zur Bestätigung. Abmeldung jederzeit,
+        Details im <Link href="/datenschutz">Datenschutz</Link>.
+      </p>
     </form>
   );
 }
