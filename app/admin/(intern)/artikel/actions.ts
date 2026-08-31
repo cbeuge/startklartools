@@ -39,6 +39,10 @@ export async function artikelSpeichern(
     .getAll("tool_ids")
     .map((v) => Number(v))
     .filter((n) => Number.isInteger(n));
+  const relatedIds = formData
+    .getAll("related_ids")
+    .map((v) => Number(v))
+    .filter((n) => Number.isInteger(n));
 
   if (!title) return { error: "Titel fehlt." };
   if (!slug) {
@@ -97,6 +101,19 @@ export async function artikelSpeichern(
         `INSERT INTO article_tools (article_id, tool_id, sort_order)
          VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`,
         [artikelId, toolIds[i], i],
+      );
+    }
+
+    await client.query(
+      "DELETE FROM article_related WHERE from_article_id = $1",
+      [artikelId],
+    );
+    for (let i = 0; i < relatedIds.length; i++) {
+      if (relatedIds[i] === artikelId) continue; // kein Selbstverweis
+      await client.query(
+        `INSERT INTO article_related (from_article_id, to_article_id, sort_order)
+         VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`,
+        [artikelId, relatedIds[i], i],
       );
     }
 

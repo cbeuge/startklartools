@@ -1,11 +1,13 @@
 import { alleKategorien } from "@/lib/kategorien";
 import { toolsFuerAuswahl } from "@/lib/tools";
+import { artikelFuerAuswahl } from "@/lib/artikel";
 import { ArtikelFormular } from "@/components/admin/ArtikelFormular";
 
 export default async function NeuerArtikel() {
-  const [kategorien, tools] = await Promise.all([
+  const [kategorien, tools, artikelAuswahl] = await Promise.all([
     alleKategorien(),
     toolsFuerAuswahl(),
+    artikelFuerAuswahl(),
   ]);
 
   return (
@@ -15,6 +17,7 @@ export default async function NeuerArtikel() {
         <ArtikelFormular
           kategorien={kategorien}
           tools={tools}
+          artikel={artikelAuswahl}
           initial={{
             id: null,
             slug: "",
@@ -27,6 +30,7 @@ export default async function NeuerArtikel() {
             meta_description: "",
             hero_image_url: "",
             toolIds: [],
+            relatedIds: [],
           }}
         />
       </div>

@@ -629,6 +629,41 @@
   font-size: 13px;
   color: var(--ink-soft);
 }
+
+/* "Passt dazu" – Verweise auf andere Artikel am Ende eines Guides */
+.site-shell .weiterlesen {
+  max-width: 720px;
+  margin: 48px auto 0;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--white);
+  padding: 24px;
+}
+.site-shell .weiterlesen > .mono {
+  font-size: 12px;
+  color: var(--stamp-dark);
+  display: block;
+  margin-bottom: 8px;
+}
+.site-shell .weiterlesen .list-links {
+  border-top: none;
+}
+.site-shell .weiterlesen .list-links li:last-child {
+  border-bottom: none;
+}
+.site-shell .weiterlesen .list-links li a {
+  padding: 14px 0;
+}
+.site-shell .weiterlesen .ll-title {
+  font-size: 16px;
+}
+.site-shell .weiterlesen .ll-desc {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+}
 .site-shell .aff-stern {
   color: var(--stamp);
   font-weight: 700;

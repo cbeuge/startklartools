@@ -11,6 +11,12 @@ import {
 
 type Option = { id: number; name: string };
 type ToolOption = { id: number; name: string; short_code: string };
+type ArtikelOption = {
+  id: number;
+  title: string;
+  slug: string;
+  status: "entwurf" | "veroeffentlicht";
+};
 
 export type ArtikelInitial = {
   id: number | null;
@@ -24,16 +30,19 @@ export type ArtikelInitial = {
   meta_description: string;
   hero_image_url: string;
   toolIds: number[];
+  relatedIds: number[];
 };
 
 export function ArtikelFormular({
   initial,
   kategorien,
   tools,
+  artikel,
 }: {
   initial: ArtikelInitial;
   kategorien: Option[];
   tools: ToolOption[];
+  artikel: ArtikelOption[];
 }) {
   const [state, formAction, pending] = useActionState<ArtikelFormState, FormData>(
     artikelSpeichern,
@@ -55,6 +64,9 @@ export function ArtikelFormular({
   const [heroImageUrl, setHeroImageUrl] = useState(initial.hero_image_url);
   const [toolIds, setToolIds] = useState<Set<number>>(
     new Set(initial.toolIds),
+  );
+  const [relatedIds, setRelatedIds] = useState<Set<number>>(
+    new Set(initial.relatedIds),
   );
 
   const wirkslug = useMemo(
@@ -80,6 +92,17 @@ export function ArtikelFormular({
     });
   }
 
+  function toggleRelated(id: number) {
+    setRelatedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  const andereArtikel = artikel.filter((a) => a.id !== initial.id);
+
   return (
     <form action={formAction} className="space-y-6">
       {initial.id !== null && (
@@ -89,6 +112,9 @@ export function ArtikelFormular({
       <input type="hidden" name="content_md" value={contentMd} />
       {[...toolIds].map((id) => (
         <input key={id} type="hidden" name="tool_ids" value={id} />
+      ))}
+      {[...relatedIds].map((id) => (
+        <input key={id} type="hidden" name="related_ids" value={id} />
       ))}
 
       {state.error && (
@@ -235,6 +261,38 @@ export function ArtikelFormular({
                 {t.name}
                 <span className="font-mono text-xs text-slate-400">
                   /go/{t.short_code}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
+      </fieldset>
+
+      <fieldset className="rounded-lg border border-slate-200 p-4">
+        <legend className="px-1 text-sm text-slate-600">
+          Passt dazu (andere Artikel)
+        </legend>
+        <p className="mb-3 text-xs text-slate-400">
+          Erscheint als Kasten „Passt dazu“ am Ende dieses Artikels. Nur
+          veröffentlichte Verweise werden öffentlich gezeigt.
+        </p>
+        {andereArtikel.length === 0 ? (
+          <p className="text-sm text-slate-400">Keine anderen Artikel vorhanden.</p>
+        ) : (
+          <div className="grid gap-2 sm:grid-cols-2">
+            {andereArtikel.map((a) => (
+              <label key={a.id} className="flex items-start gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  className="mt-1"
+                  checked={relatedIds.has(a.id)}
+                  onChange={() => toggleRelated(a.id)}
+                />
+                <span>
+                  {a.title}
+                  {a.status === "entwurf" && (
+                    <span className="ml-1 text-xs text-slate-400">(Entwurf)</span>
+                  )}
                 </span>
               </label>
             ))}

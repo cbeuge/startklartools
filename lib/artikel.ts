@@ -24,6 +24,10 @@ export type ArtikelZeile = Pick<
   "id" | "slug" | "title" | "status" | "updated_at"
 > & { kategorie_name: string | null };
 
+export type ArtikelAuswahl = Pick<Artikel, "id" | "title" | "slug"> & {
+  status: ArtikelStatus;
+};
+
 export function artikelListe(): Promise<ArtikelZeile[]> {
   return query<ArtikelZeile>(`
     SELECT a.id, a.slug, a.title, a.status, a.updated_at,
@@ -44,4 +48,20 @@ export async function artikelToolIds(articleId: number): Promise<number[]> {
     [articleId],
   );
   return rows.map((r) => r.tool_id);
+}
+
+// Alle Artikel für die "Passt dazu"-Auswahl im Editor.
+export function artikelFuerAuswahl(): Promise<ArtikelAuswahl[]> {
+  return query<ArtikelAuswahl>(
+    "SELECT id, title, slug, status FROM articles ORDER BY title",
+  );
+}
+
+// IDs der Artikel, auf die dieser Artikel verweist (in Kasten-Reihenfolge).
+export async function artikelVerwandtIds(articleId: number): Promise<number[]> {
+  const rows = await query<{ to_article_id: number }>(
+    "SELECT to_article_id FROM article_related WHERE from_article_id = $1 ORDER BY sort_order",
+    [articleId],
+  );
+  return rows.map((r) => r.to_article_id);
 }

@@ -1,5 +1,10 @@
 import { notFound } from "next/navigation";
-import { artikel, artikelToolIds } from "@/lib/artikel";
+import {
+  artikel,
+  artikelFuerAuswahl,
+  artikelToolIds,
+  artikelVerwandtIds,
+} from "@/lib/artikel";
 import { alleKategorien } from "@/lib/kategorien";
 import { toolsFuerAuswahl } from "@/lib/tools";
 import { ArtikelFormular } from "@/components/admin/ArtikelFormular";
@@ -16,14 +21,18 @@ export default async function ArtikelBearbeiten({
   const artikelId = Number(id);
   if (!Number.isInteger(artikelId)) notFound();
 
-  const [a, kategorien, tools] = await Promise.all([
+  const [a, kategorien, tools, artikelAuswahl] = await Promise.all([
     artikel(artikelId),
     alleKategorien(),
     toolsFuerAuswahl(),
+    artikelFuerAuswahl(),
   ]);
   if (!a) notFound();
 
-  const toolIds = await artikelToolIds(a.id);
+  const [toolIds, relatedIds] = await Promise.all([
+    artikelToolIds(a.id),
+    artikelVerwandtIds(a.id),
+  ]);
   const { gespeichert } = await searchParams;
 
   return (
@@ -51,6 +60,7 @@ export default async function ArtikelBearbeiten({
         <ArtikelFormular
           kategorien={kategorien}
           tools={tools}
+          artikel={artikelAuswahl}
           initial={{
             id: a.id,
             slug: a.slug,
@@ -63,6 +73,7 @@ export default async function ArtikelBearbeiten({
             meta_description: a.meta_description,
             hero_image_url: a.hero_image_url,
             toolIds,
+            relatedIds,
           }}
         />
       </div>

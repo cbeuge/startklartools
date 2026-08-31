@@ -38,7 +38,7 @@ export default async function ArtikelSeite({
   const daten = await oeffentlicherArtikel(slug);
   if (!daten) notFound();
 
-  const { artikel, tools } = daten;
+  const { artikel, tools, verwandt } = daten;
   const html = renderMarkdown(artikel.content_md, { artikelSlug: artikel.slug });
   const hatAffiliate = tools.length > 0 || html.includes('href="/go/');
 
@@ -97,6 +97,24 @@ export default async function ArtikelSeite({
         )}
 
         {hatAffiliate && <AffiliateHinweis />}
+
+        {verwandt.length > 0 && (
+          <aside className="weiterlesen">
+            <span className="mono">Passt dazu</span>
+            <ul className="list-links">
+              {verwandt.map((v) => (
+                <li key={v.slug}>
+                  <Link href={`/ratgeber/${v.slug}`}>
+                    <div className="ll-title">{v.title}</div>
+                    {v.kategorie_name && (
+                      <div className="ll-desc">{v.kategorie_name}</div>
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
       </div>
     </article>
   );

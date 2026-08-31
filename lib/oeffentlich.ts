@@ -122,9 +122,16 @@ export type OeffArtikel = {
   kategorie_slug: string | null;
 };
 
+export type VerwandterArtikel = {
+  slug: string;
+  title: string;
+  kategorie_name: string | null;
+};
+
 export async function oeffentlicherArtikel(slug: string): Promise<{
   artikel: OeffArtikel;
   tools: Pick<ToolLink, "name" | "short_code" | "short_description">[];
+  verwandt: VerwandterArtikel[];
 } | null> {
   const artikel = await queryOne<OeffArtikel>(
     `
@@ -152,7 +159,19 @@ export async function oeffentlicherArtikel(slug: string): Promise<{
     [artikel.id],
   );
 
-  return { artikel, tools };
+  const verwandt = await query<VerwandterArtikel>(
+    `
+    SELECT a.slug, a.title, c.name AS kategorie_name
+      FROM article_related r
+      JOIN articles a ON a.id = r.to_article_id
+      LEFT JOIN categories c ON c.id = a.category_id
+     WHERE r.from_article_id = $1 AND a.status = 'veroeffentlicht'
+     ORDER BY r.sort_order
+  `,
+    [artikel.id],
+  );
+
+  return { artikel, tools, verwandt };
 }
 
 export function veroeffentlichteArtikelSlugs(): Promise<
