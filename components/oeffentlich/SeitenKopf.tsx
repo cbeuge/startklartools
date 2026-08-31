@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MobileMenu } from "./MobileMenu";
 
 export function SeitenKopf() {
   return (
@@ -12,9 +13,12 @@ export function SeitenKopf() {
           <Link href="/#tools">Tools</Link>
           <Link href="/ratgeber">Guides</Link>
         </nav>
-        <Link href="/#themen" className="nav-cta">
-          Loslegen
-        </Link>
+        <div className="nav-right">
+          <Link href="/#themen" className="nav-cta">
+            Loslegen
+          </Link>
+          <MobileMenu />
+        </div>
       </div>
     </header>
   );

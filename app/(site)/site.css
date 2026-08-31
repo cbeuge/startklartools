@@ -76,7 +76,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 0;
+  /* Nur vertikal setzen, damit das seitliche Padding von .wrap greift
+     (sonst überschreibt der Shorthand es auf 0 und der Header klebt am Rand). */
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Burger nur auf schmalen Viewports, Regeln im 880px-Block */
+.site-shell .burger {
+  display: none;
 }
 .site-shell .logo {
   font-family: var(--font-zilla), "Zilla Slab", serif;
@@ -105,6 +113,11 @@
 .site-shell .navlinks a:hover {
   color: var(--ink);
   border-color: var(--stamp);
+}
+.site-shell .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .site-shell .nav-cta {
   background: var(--ink);
@@ -366,6 +379,11 @@
 .site-shell .guide-card p {
   font-size: 14px;
   color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .site-shell .guide-more {
   font-size: 13.5px;
@@ -433,7 +451,9 @@
   grid-template-columns: auto 1fr;
   gap: 32px;
   align-items: start;
-  padding: 56px 0;
+  /* wie .nav: seitliches Padding von .wrap nicht plattmachen */
+  padding-top: 56px;
+  padding-bottom: 56px;
 }
 .site-shell .trust-badge {
   width: 56px;
@@ -869,19 +889,109 @@
   .site-shell .navlinks {
     display: none;
   }
+
+  /* Burger-Menü */
+  .site-shell .burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: 6px;
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--paper);
+    cursor: pointer;
+  }
+  .site-shell .burger-icon {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--ink);
+  }
+  .site-shell .burger-icon::before,
+  .site-shell .burger-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 2px;
+    background: var(--ink);
+    transition: transform 0.15s;
+  }
+  .site-shell .burger-icon::before {
+    top: -6px;
+  }
+  .site-shell .burger-icon::after {
+    top: 6px;
+  }
+  .site-shell .burger-icon.offen {
+    background: transparent;
+  }
+  .site-shell .burger-icon.offen::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .site-shell .burger-icon.offen::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  .site-shell .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 42, 37, 0.35);
+    z-index: 40;
+  }
+  .site-shell .mobile-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 24px rgba(30, 42, 37, 0.12);
+    display: flex;
+    flex-direction: column;
+    padding: 4px 32px 12px;
+    z-index: 45;
+  }
+  .site-shell .mobile-panel a {
+    padding: 14px 2px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-shell .mobile-panel a:last-child {
+    border-bottom: none;
+  }
+
   .site-shell .g-featured,
   .site-shell .g-grid {
     grid-template-columns: 1fr;
   }
+  .site-shell .hero {
+    padding: 56px 0 64px;
+  }
   .site-shell .hero-grid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 44px;
   }
   .site-shell .hero h1 {
     font-size: 38px;
   }
+  .site-shell section {
+    padding: 52px 0;
+  }
+  .site-shell .section-head {
+    margin-bottom: 28px;
+  }
   .site-shell .themen-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .site-shell .theme-card {
+    min-height: 132px;
+    padding: 22px 18px;
   }
   .site-shell .guides-grid {
     grid-template-columns: 1fr;
@@ -889,11 +999,25 @@
   .site-shell .tools-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .site-shell .trust-inner {
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
   .site-shell .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .site-shell .site-footer {
+    padding: 48px 0 32px;
+  }
+  .site-shell .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+  }
   .site-shell .stamp-mark {
     display: none;
+  }
+  .site-shell .article {
+    padding: 40px 0 56px;
   }
   .site-shell .article-head h1 {
     font-size: 30px;
@@ -901,5 +1025,61 @@
   .site-shell .tool-row {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-shell .wrap {
+    /* longhand, sonst killt der Shorthand das vertikale Padding von .nav/.trust-inner */
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .site-shell .mobile-panel {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .site-shell .hero {
+    padding: 36px 0 44px;
+  }
+  .site-shell .hero h1 {
+    font-size: 31px;
+  }
+  .site-shell .hero p.lead {
+    font-size: 16.5px;
+  }
+  .site-shell section {
+    padding: 44px 0;
+  }
+  .site-shell .section-head h2 {
+    font-size: 24px;
+  }
+  .site-shell .themen-grid {
+    grid-template-columns: 1fr;
+  }
+  .site-shell .theme-card {
+    min-height: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+  .site-shell .theme-card h3 {
+    margin-top: 0;
+  }
+  .site-shell .tools-grid {
+    grid-template-columns: 1fr;
+  }
+  .site-shell .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .site-shell .article-head h1 {
+    font-size: 27px;
+  }
+  .site-shell .prose {
+    font-size: 16.5px;
+  }
+  .site-shell .prose h2 {
+    font-size: 21px;
   }
 }
