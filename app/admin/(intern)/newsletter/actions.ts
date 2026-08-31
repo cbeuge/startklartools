@@ -4,7 +4,12 @@ import { revalidatePath } from "next/cache";
 import { pool } from "@/db/pool";
 import { requireAdmin } from "@/lib/auth";
 import { renderMarkdown } from "@/lib/markdown";
-import { mailKonfiguriert, sendeMail } from "@/lib/mail";
+import {
+  mailKonfiguriert,
+  sendeMail,
+  signaturHtml,
+  signaturText,
+} from "@/lib/mail";
 import { aktiveEmpfaenger } from "@/lib/newsletter";
 
 export type VersandState = {
@@ -30,7 +35,16 @@ ${innerHtml}
 Du bekommst diese E-Mail, weil du dich auf startklar.tools für den Guide der Woche angemeldet hast.<br>
 <a href="${abmeldeUrl}" style="color:#8e2c22">Vom Newsletter abmelden</a>
 </p>
+${signaturHtml()}
 </div>`;
+}
+
+// Relative Links (/ratgeber/…, /go/…) im gerenderten Markdown auf die volle
+// Domain bringen – in einer E-Mail lässt sich "/…" nicht auflösen.
+function linksAbsolut(html: string, basis: string): string {
+  return basis
+    ? html.replace(/(href|src)="\/(?!\/)/g, `$1="${basis}/`)
+    : html;
 }
 
 export async function newsletterSenden(
@@ -61,8 +75,8 @@ export async function newsletterSenden(
     };
   }
 
-  const basis = process.env.NEXT_PUBLIC_BASE_URL ?? "";
-  const inhaltHtml = renderMarkdown(inhalt);
+  const basis = (process.env.NEXT_PUBLIC_BASE_URL ?? "").replace(/\/+$/, "");
+  const inhaltHtml = linksAbsolut(renderMarkdown(inhalt), basis);
 
   let gesendet = 0;
   let fehlgeschlagen = 0;
@@ -72,7 +86,12 @@ export async function newsletterSenden(
       const ok = await sendeMail({
         an: e.email,
         betreff,
-        text: `${inhalt}\n\n---\nVom Newsletter abmelden: ${abmeldeUrl}`,
+        text:
+          `${inhalt}\n\n---\n` +
+          `Du bekommst diese E-Mail, weil du dich auf startklar.tools für den ` +
+          `Guide der Woche angemeldet hast.\n` +
+          `Vom Newsletter abmelden: ${abmeldeUrl}\n\n` +
+          signaturText(),
         html: mailHuelle(inhaltHtml, abmeldeUrl),
       });
       if (ok) gesendet++;

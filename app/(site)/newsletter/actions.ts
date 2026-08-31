@@ -2,7 +2,7 @@
 
 import { randomBytes } from "node:crypto";
 import { pool } from "@/db/pool";
-import { sendeMail } from "@/lib/mail";
+import { sendeMail, signaturText } from "@/lib/mail";
 
 export type NewsletterState = { ok?: boolean; error?: string };
 
@@ -47,9 +47,10 @@ export async function newsletterEintragen(
       an: email,
       betreff: "Bitte bestätige deine Anmeldung zum Guide der Woche",
       text:
-        `Hallo,\n\nbitte bestätige deine Anmeldung mit einem Klick:\n${link}\n\n` +
+        `Hallo,\n\nbitte bestätige deine Anmeldung zum Newsletter „Guide der Woche" ` +
+        `mit einem Klick:\n${link}\n\n` +
         `Wenn du dich nicht angemeldet hast, ignoriere diese E-Mail einfach.\n\n` +
-        `startklar.tools`,
+        signaturText(),
     });
   }
 
