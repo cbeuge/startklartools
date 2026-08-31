@@ -18,11 +18,21 @@ export const ANBIETER = {
   email: "info@startklar.tools",
 };
 
+// Gmail, Apple Mail & Co. verlinken erkannte Postanschriften automatisch auf
+// Karten-Dienste. Ein unsichtbares Zero-Width-Space in Hausnummer und PLZ
+// bricht die Mustererkennung, ohne dass man etwas sieht.
+const ZWS = "​";
+function anschrift(): string {
+  const strasse = ANBIETER.strasse.replace(" ", `${ZWS} `);
+  const ort = ANBIETER.ort.replace(/^(\d)(\d)/, `$1${ZWS}$2`);
+  return `${ANBIETER.name}, ${strasse}, ${ort}`;
+}
+
 export function signaturText(): string {
   return [
     "--",
     "startklar.tools",
-    `${ANBIETER.name}, ${ANBIETER.strasse}, ${ANBIETER.ort}`,
+    anschrift(),
     ANBIETER.email,
     `Inhaltlich verantwortlich (§ 18 Abs. 2 MStV): ${ANBIETER.name}, Anschrift wie oben`,
   ].join("\n");
@@ -31,7 +41,7 @@ export function signaturText(): string {
 export function signaturHtml(): string {
   return `<p style="font-size:12px;color:#5b655f;line-height:1.5;margin:16px 0 0">
 startklar.tools<br>
-${ANBIETER.name}, ${ANBIETER.strasse}, ${ANBIETER.ort}<br>
+${anschrift()}<br>
 <a href="mailto:${ANBIETER.email}" style="color:#5b655f">${ANBIETER.email}</a><br>
 Inhaltlich verantwortlich (§ 18 Abs. 2 MStV): ${ANBIETER.name}, Anschrift wie oben
 </p>`;
