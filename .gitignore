@@ -20,6 +20,9 @@
 # production
 /build
 
+# LegalHub-Dateicache (Laufzeit, liegt neben der App, siehe lib/legalhub.ts)
+/cache/
+
 # misc
 .DS_Store
 *.pem

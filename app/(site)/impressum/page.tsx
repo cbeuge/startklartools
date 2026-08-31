@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { rechtstext } from "@/lib/legalhub";
 
-export const revalidate = 3600;
+// Dynamisch: der Text kommt aus LegalHub und wird dort im Dateicache neben der
+// App 24 h vorgehalten (siehe lib/legalhub.ts). Mit ISR würde eine Textänderung
+// zusätzlich bis zu eine Stunde im Next-Cache festhängen.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Impressum",
