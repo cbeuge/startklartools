@@ -16,6 +16,7 @@ export type ToolInitial = {
   name: string;
   short_description: string;
   affiliate_url: string;
+  homepage_url: string;
   short_code: string;
   category_id: number | null;
   status: "entwurf" | "veroeffentlicht";
@@ -49,6 +50,7 @@ export function ToolFormular({
     initial.short_description,
   );
   const [affiliateUrl, setAffiliateUrl] = useState(initial.affiliate_url);
+  const [homepageUrl, setHomepageUrl] = useState(initial.homepage_url);
   const [categoryId, setCategoryId] = useState(
     initial.category_id ? String(initial.category_id) : "",
   );
@@ -123,22 +125,40 @@ export function ToolFormular({
         </label>
       </div>
 
-      <label className="block">
-        <span className="text-sm text-slate-600">
-          Affiliate-Link (Ziel){" "}
-          <span className="text-slate-400">
-            (Pflicht zum Veröffentlichen)
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-sm text-slate-600">Affiliate-Link (Ziel)</span>
+          <input
+            name="affiliate_url"
+            type="url"
+            value={affiliateUrl}
+            onChange={(e) => setAffiliateUrl(e.target.value)}
+            placeholder="https://…"
+            className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm text-slate-600">
+            Anbieter-Seite{" "}
+            <span className="text-slate-400">
+              (Ziel, solange kein Affiliate-Link da ist)
+            </span>
           </span>
-        </span>
-        <input
-          name="affiliate_url"
-          type="url"
-          value={affiliateUrl}
-          onChange={(e) => setAffiliateUrl(e.target.value)}
-          placeholder="https://…"
-          className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
-        />
-      </label>
+          <input
+            name="homepage_url"
+            type="url"
+            value={homepageUrl}
+            onChange={(e) => setHomepageUrl(e.target.value)}
+            placeholder="https://…"
+            className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
+          />
+        </label>
+      </div>
+      <p className="-mt-2 text-xs text-slate-400">
+        <span className="font-mono">/go/{wirkShort || "…"}</span> leitet auf den
+        Affiliate-Link, sonst auf die Anbieter-Seite. Zum Veröffentlichen muss
+        mindestens eins von beiden gesetzt sein.
+      </p>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">

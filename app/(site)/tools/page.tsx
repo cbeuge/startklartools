@@ -76,7 +76,7 @@ function ToolKarte({ tool }: { tool: ToolDetail }) {
         </div>
       )}
 
-      {tool.affiliate_url && (
+      {tool.affiliate_url ? (
         <a
           className="btn-primary tool-cta"
           href={`/go/${tool.short_code}`}
@@ -84,6 +84,16 @@ function ToolKarte({ tool }: { tool: ToolDetail }) {
         >
           Zum Anbieter <span className="aff-stern">*</span>
         </a>
+      ) : (
+        tool.homepage_url && (
+          <a
+            className="btn-secondary tool-cta"
+            href={`/go/${tool.short_code}`}
+            rel="nofollow noopener"
+          >
+            Zur Anbieter-Seite
+          </a>
+        )
       )}
     </article>
   );

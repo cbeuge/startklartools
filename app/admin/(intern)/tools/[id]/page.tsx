@@ -106,6 +106,7 @@ export default async function ToolBearbeiten({
             name: t.name,
             short_description: t.short_description,
             affiliate_url: t.affiliate_url,
+            homepage_url: t.homepage_url,
             short_code: t.short_code,
             category_id: t.category_id,
             status: t.status,

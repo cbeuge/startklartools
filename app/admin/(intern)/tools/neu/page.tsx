@@ -16,6 +16,7 @@ export default async function NeuesTool() {
             name: "",
             short_description: "",
             affiliate_url: "",
+            homepage_url: "",
             short_code: "",
             category_id: null,
             status: "entwurf",

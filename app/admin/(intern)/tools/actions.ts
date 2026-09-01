@@ -50,6 +50,7 @@ export async function toolSpeichern(
   const shortCodeEingabe = String(formData.get("short_code") ?? "").trim();
   const short_description = String(formData.get("short_description") ?? "").trim();
   const affiliate_url = String(formData.get("affiliate_url") ?? "").trim();
+  const homepage_url = String(formData.get("homepage_url") ?? "").trim();
   const categoryRaw = String(formData.get("category_id") ?? "");
   const category_id = categoryRaw ? Number(categoryRaw) : null;
   const status =
@@ -77,8 +78,14 @@ export async function toolSpeichern(
   if (affiliate_url && !istHttpUrl(affiliate_url)) {
     return { error: "Affiliate-Link muss eine http(s)-Adresse sein." };
   }
-  if (status === "veroeffentlicht" && !affiliate_url) {
-    return { error: "Zum Veröffentlichen braucht das Tool einen Affiliate-Link." };
+  if (homepage_url && !istHttpUrl(homepage_url)) {
+    return { error: "Anbieter-Seite muss eine http(s)-Adresse sein." };
+  }
+  if (status === "veroeffentlicht" && !affiliate_url && !homepage_url) {
+    return {
+      error:
+        "Zum Veröffentlichen braucht das Tool einen Affiliate-Link oder eine Anbieter-Seite.",
+    };
   }
 
   // Slug-Kollision
@@ -111,12 +118,14 @@ export async function toolSpeichern(
            slug = $1, name = $2, short_description = $3, affiliate_url = $4,
            short_code = $5, category_id = $6, status = $7, logo_url = $8,
            commission_info = $9, notes = $10, beschreibung = $11,
-           preise = $12::jsonb, fuer_wen = $13::jsonb, preis_stand = $14
-         WHERE id = $15`,
+           preise = $12::jsonb, fuer_wen = $13::jsonb, preis_stand = $14,
+           homepage_url = $15
+         WHERE id = $16`,
         [
           slug, name, short_description, affiliate_url, short_code,
           category_id, status, logo_url, commission_info, notes, beschreibung,
-          JSON.stringify(preise), JSON.stringify(fuer_wen), preis_stand, id,
+          JSON.stringify(preise), JSON.stringify(fuer_wen), preis_stand,
+          homepage_url, id,
         ],
       );
       toolId = id;
@@ -125,13 +134,14 @@ export async function toolSpeichern(
         `INSERT INTO tools
            (slug, name, short_description, affiliate_url, short_code,
             category_id, status, logo_url, commission_info, notes,
-            beschreibung, preise, fuer_wen, preis_stand)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb,$13::jsonb,$14)
+            beschreibung, preise, fuer_wen, preis_stand, homepage_url)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb,$13::jsonb,$14,$15)
          RETURNING id`,
         [
           slug, name, short_description, affiliate_url, short_code,
           category_id, status, logo_url, commission_info, notes, beschreibung,
           JSON.stringify(preise), JSON.stringify(fuer_wen), preis_stand,
+          homepage_url,
         ],
       );
       toolId = res.rows[0].id;

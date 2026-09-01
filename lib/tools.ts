@@ -11,6 +11,7 @@ export type Tool = {
   name: string;
   short_description: string;
   affiliate_url: string;
+  homepage_url: string;
   short_code: string;
   category_id: number | null;
   status: ToolStatus;

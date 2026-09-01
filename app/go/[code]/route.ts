@@ -58,11 +58,17 @@ export async function GET(
 ) {
   const { code } = await ctx.params;
 
-  const t = await queryOne<{ id: number; affiliate_url: string }>(
-    "SELECT id, affiliate_url FROM tools WHERE short_code = $1 AND status = 'veroeffentlicht'",
+  const t = await queryOne<{
+    id: number;
+    affiliate_url: string;
+    homepage_url: string;
+  }>(
+    "SELECT id, affiliate_url, homepage_url FROM tools WHERE short_code = $1 AND status = 'veroeffentlicht'",
     [code],
   );
-  if (!t) {
+  // Solange kein Affiliate-Link gesetzt ist, auf die Anbieter-Seite leiten.
+  const ziel = t && (t.affiliate_url || t.homepage_url);
+  if (!t || !ziel) {
     return new NextResponse("Link nicht gefunden.", { status: 404 });
   }
 
@@ -86,5 +92,5 @@ export async function GET(
     }
   });
 
-  return NextResponse.redirect(t.affiliate_url, 302);
+  return NextResponse.redirect(ziel, 302);
 }
