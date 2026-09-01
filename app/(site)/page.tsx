@@ -103,6 +103,50 @@ export default async function Startseite() {
         </div>
       </section>
 
+      <div className="trust">
+        <div className="wrap trust-inner">
+          <div className="trust-photo">
+            {HAT_FOTO ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src="/carsten.jpg" alt="Carsten, Gründer von startklar.tools" />
+            ) : (
+              <div className="placeholder">
+                Foto
+                <br />
+                Carsten
+              </div>
+            )}
+          </div>
+          <div>
+            <span className="mono">Warum es diese Seite gibt</span>
+            <p>
+              Ich bin Carsten, Baujahr 67, und ich hab mich vor ein paar Jahren
+              selbst durch genau das gekämpft, worüber ich hier schreibe.
+              Zwischen veralteten Foren-Threads, reinen Werbetexten und trockenen
+              Behördenseiten hin- und hergesprungen, ohne eine Stelle, die beides
+              ehrlich zusammenbringt.
+            </p>
+            <p className="sub">
+              startklar.tools ist die Seite, die ich mir damals gewünscht hätte:
+              Guides aus echter Erfahrung statt austauschbarer Ratgeber-Texte,
+              und die Tools, die ich selbst nutze oder ernsthaft geprüft habe,
+              dort eingebettet, wo sie inhaltlich hingehören, nicht als
+              Werbebanner drumherum gebaut. Ein Teil der Links auf dieser Seite
+              sind Affiliate-Links, das ändert nichts daran, was ich empfehle,
+              nur wie sich die Seite finanziert. Ein Teil der Tools habe ich
+              mittlerweile auch selbst durch Claude Code gebaut, weil ich sie so
+              auf meine Bedürfnisse anpassen kann, wie ich sie brauche.
+            </p>
+            <p className="sub">
+              Ich hoffe, ich kann dir mit der Seite weiterhelfen.
+            </p>
+            <div className="trust-name">
+              Gründer von startklar.tools, selbst nebenberuflich unterwegs
+            </div>
+          </div>
+        </div>
+      </div>
+
       {themen.length > 0 && (
         <section id="themen">
           <div className="wrap">
@@ -202,50 +246,6 @@ export default async function Startseite() {
           </div>
         </section>
       )}
-
-      <div className="trust">
-        <div className="wrap trust-inner">
-          <div className="trust-photo">
-            {HAT_FOTO ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src="/carsten.jpg" alt="Carsten, Gründer von startklar.tools" />
-            ) : (
-              <div className="placeholder">
-                Foto
-                <br />
-                Carsten
-              </div>
-            )}
-          </div>
-          <div>
-            <span className="mono">Warum es diese Seite gibt</span>
-            <p>
-              Ich bin Carsten, Baujahr 67, und ich hab mich vor ein paar Jahren
-              selbst durch genau das gekämpft, worüber ich hier schreibe.
-              Zwischen veralteten Foren-Threads, reinen Werbetexten und trockenen
-              Behördenseiten hin- und hergesprungen, ohne eine Stelle, die beides
-              ehrlich zusammenbringt.
-            </p>
-            <p className="sub">
-              startklar.tools ist die Seite, die ich mir damals gewünscht hätte:
-              Guides aus echter Erfahrung statt austauschbarer Ratgeber-Texte,
-              und die Tools, die ich selbst nutze oder ernsthaft geprüft habe,
-              dort eingebettet, wo sie inhaltlich hingehören, nicht als
-              Werbebanner drumherum gebaut. Ein Teil der Links auf dieser Seite
-              sind Affiliate-Links, das ändert nichts daran, was ich empfehle,
-              nur wie sich die Seite finanziert. Ein Teil der Tools habe ich
-              mittlerweile auch selbst durch Claude Code gebaut, weil ich sie so
-              auf meine Bedürfnisse anpassen kann, wie ich sie brauche.
-            </p>
-            <p className="sub">
-              Ich hoffe, ich kann dir mit der Seite weiterhelfen.
-            </p>
-            <div className="trust-name">
-              Gründer von startklar.tools, selbst nebenberuflich unterwegs
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
