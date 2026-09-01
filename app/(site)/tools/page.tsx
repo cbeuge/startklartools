@@ -88,8 +88,9 @@ function ToolKarte({ tool }: { tool: ToolDetail }) {
         tool.homepage_url && (
           <a
             className="btn-secondary tool-cta"
-            href={`/go/${tool.short_code}`}
+            href={tool.homepage_url}
             rel="nofollow noopener"
+            target="_blank"
           >
             Zur Anbieter-Seite
           </a>

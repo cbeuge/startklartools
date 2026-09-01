@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { oeffentlicherArtikel, kategorieIcon } from "@/lib/oeffentlich";
+import { oeffentlicherArtikel, kategorieIcon, toolZiel } from "@/lib/oeffentlich";
 import { renderMarkdown } from "@/lib/markdown";
 import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
 
@@ -38,10 +38,14 @@ export default async function ArtikelSeite({
   const daten = await oeffentlicherArtikel(slug);
   if (!daten) notFound();
 
-  const { artikel, tools, verwandt } = daten;
-  const html = renderMarkdown(artikel.content_md, { artikelSlug: artikel.slug });
+  const { artikel, tools, goZiele, verwandt } = daten;
+  const html = renderMarkdown(artikel.content_md, {
+    artikelSlug: artikel.slug,
+    goZiele,
+  });
   const icon = kategorieIcon(artikel.kategorie_icon);
-  const hatAffiliate = tools.length > 0 || html.includes('href="/go/');
+  const hatAffiliate =
+    tools.some((t) => t.affiliate_url) || html.includes('href="/go/');
 
   return (
     <article className="article">
@@ -87,25 +91,41 @@ export default async function ArtikelSeite({
         {tools.length > 0 && (
           <div className="tool-box">
             <span className="mono">Im Artikel empfohlen</span>
-            {tools.map((tool) => (
-              <div className="tool-row" key={tool.short_code}>
-                <div>
-                  <div className="tr-name">
-                    {tool.name} <span className="aff-stern">*</span>
+            {tools.map((tool) => {
+              const ziel = toolZiel(tool, artikel.slug);
+              return (
+                <div className="tool-row" key={tool.short_code}>
+                  <div>
+                    <div className="tr-name">
+                      {tool.name}
+                      {ziel.affiliate && (
+                        <>
+                          {" "}
+                          <span className="aff-stern">*</span>
+                        </>
+                      )}
+                    </div>
+                    {tool.short_description && (
+                      <div className="tr-desc">{tool.short_description}</div>
+                    )}
                   </div>
-                  {tool.short_description && (
-                    <div className="tr-desc">{tool.short_description}</div>
+                  {ziel.href && (
+                    <a
+                      className="btn-primary"
+                      href={ziel.href}
+                      rel={
+                        ziel.affiliate
+                          ? "sponsored nofollow"
+                          : "nofollow noopener"
+                      }
+                      {...(ziel.affiliate ? {} : { target: "_blank" })}
+                    >
+                      Zum Anbieter
+                    </a>
                   )}
                 </div>
-                <a
-                  className="btn-primary"
-                  href={`/go/${tool.short_code}?a=${artikel.slug}`}
-                  rel="sponsored nofollow"
-                >
-                  Zum Anbieter
-                </a>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 

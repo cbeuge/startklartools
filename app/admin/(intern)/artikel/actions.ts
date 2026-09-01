@@ -6,13 +6,14 @@ import { pool, queryOne } from "@/db/pool";
 import { requireAdmin } from "@/lib/auth";
 import { slugify } from "@/lib/slug";
 import { renderMarkdown } from "@/lib/markdown";
+import { goZieleFuerText } from "@/lib/oeffentlich";
 
 export type ArtikelFormState = { error?: string };
 
 // Live-Vorschau im Editor. Gleicher Renderpfad wie die oeffentliche Ausgabe.
 export async function vorschau(md: string): Promise<string> {
   await requireAdmin();
-  return renderMarkdown(md);
+  return renderMarkdown(md, { goZiele: await goZieleFuerText(md) });
 }
 
 export async function artikelSpeichern(

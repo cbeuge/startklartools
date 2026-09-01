@@ -29,10 +29,61 @@ export type ToolLink = {
   name: string;
   short_code: string;
   short_description: string;
+  affiliate_url: string;
+  homepage_url: string;
   kategorie_id: number | null;
   kategorie_name: string | null;
   kategorie_slug: string | null;
 };
+
+// Ziel eines Tool-Links: mit Affiliate-Link -> getrackt über /go/ (mit Stern),
+// sonst direkt auf die Anbieter-Seite (ohne Stern).
+export function toolZiel(
+  t: { short_code: string; affiliate_url: string; homepage_url: string },
+  artikelSlug?: string,
+): { href: string; affiliate: boolean } {
+  if (t.affiliate_url) {
+    const q = artikelSlug ? `?a=${artikelSlug}` : "";
+    return { href: `/go/${t.short_code}${q}`, affiliate: true };
+  }
+  return { href: t.homepage_url, affiliate: false };
+}
+
+// Baut die goZiele-Auflösung für alle /go/<code>-Links in einem Markdown-Text.
+// Tool mit Affiliate-Link -> /go/ bleibt (getrackt, mit Stern), sonst direkter
+// Link auf die Anbieter-Seite. Für renderMarkdown(md, { goZiele }).
+export async function goZieleFuerText(
+  md: string,
+  artikelSlug?: string,
+): Promise<Record<string, { url: string; affiliate: boolean }>> {
+  const codes = [
+    ...new Set(
+      [...(md ?? "").matchAll(/\/go\/([a-z0-9_-]+)/gi)].map((m) =>
+        m[1].toLowerCase(),
+      ),
+    ),
+  ];
+  const goZiele: Record<string, { url: string; affiliate: boolean }> = {};
+  if (!codes.length) return goZiele;
+  const rows = await query<{
+    short_code: string;
+    affiliate_url: string;
+    homepage_url: string;
+  }>(
+    `SELECT short_code, affiliate_url, homepage_url FROM tools
+      WHERE lower(short_code) = ANY($1) AND status = 'veroeffentlicht'`,
+    [codes],
+  );
+  for (const r of rows) {
+    const z = toolZiel(r, artikelSlug);
+    if (z.href)
+      goZiele[r.short_code.toLowerCase()] = {
+        url: z.href,
+        affiliate: z.affiliate,
+      };
+  }
+  return goZiele;
+}
 
 export type Preisstufe = { tier: string; price: string; note: string };
 
@@ -140,8 +191,8 @@ export function guidesUebersicht(kategorieSlug?: string): Promise<GuideKarte[]> 
 
 export function veroeffentlichteTools(): Promise<ToolLink[]> {
   return query<ToolLink>(`
-    SELECT t.name, t.short_code, t.short_description,
-           t.category_id AS kategorie_id,
+    SELECT t.name, t.short_code, t.short_description, t.affiliate_url,
+           t.homepage_url, t.category_id AS kategorie_id,
            c.name AS kategorie_name, c.slug AS kategorie_slug
       FROM tools t
       LEFT JOIN categories c ON c.id = t.category_id
@@ -174,9 +225,15 @@ export type VerwandterArtikel = {
   kategorie_name: string | null;
 };
 
+export type ArtikelTool = Pick<
+  ToolLink,
+  "name" | "short_code" | "short_description" | "affiliate_url" | "homepage_url"
+>;
+
 export async function oeffentlicherArtikel(slug: string): Promise<{
   artikel: OeffArtikel;
-  tools: Pick<ToolLink, "name" | "short_code" | "short_description">[];
+  tools: ArtikelTool[];
+  goZiele: Record<string, { url: string; affiliate: boolean }>;
   verwandt: VerwandterArtikel[];
 } | null> {
   const artikel = await queryOne<OeffArtikel>(
@@ -195,11 +252,10 @@ export async function oeffentlicherArtikel(slug: string): Promise<{
   );
   if (!artikel) return null;
 
-  const tools = await query<
-    Pick<ToolLink, "name" | "short_code" | "short_description">
-  >(
+  const tools = await query<ArtikelTool>(
     `
-    SELECT t.name, t.short_code, t.short_description
+    SELECT t.name, t.short_code, t.short_description, t.affiliate_url,
+           t.homepage_url
       FROM article_tools at
       JOIN tools t ON t.id = at.tool_id
      WHERE at.article_id = $1 AND t.status = 'veroeffentlicht'
@@ -207,6 +263,10 @@ export async function oeffentlicherArtikel(slug: string): Promise<{
   `,
     [artikel.id],
   );
+
+  // /go/<code>-Links im Text: mit Affiliate-Link bleiben sie /go/, ohne
+  // führen sie direkt auf die Anbieter-Seite (siehe renderMarkdown).
+  const goZiele = await goZieleFuerText(artikel.content_md, artikel.slug);
 
   const verwandt = await query<VerwandterArtikel>(
     `
@@ -220,7 +280,7 @@ export async function oeffentlicherArtikel(slug: string): Promise<{
     [artikel.id],
   );
 
-  return { artikel, tools, verwandt };
+  return { artikel, tools, goZiele, verwandt };
 }
 
 export function veroeffentlichteArtikelSlugs(): Promise<
@@ -234,7 +294,7 @@ export function veroeffentlichteArtikelSlugs(): Promise<
 export async function oeffentlicheKategorie(slug: string): Promise<{
   kategorie: OeffKategorie;
   artikel: GuideKarte[];
-  tools: Pick<ToolLink, "name" | "short_code" | "short_description">[];
+  tools: ArtikelTool[];
 } | null> {
   const kategorie = await queryOne<OeffKategorie>(
     "SELECT id, slug, name, parent_id, icon FROM categories WHERE slug = $1 AND status = 'veroeffentlicht'",
@@ -255,11 +315,10 @@ export async function oeffentlicheKategorie(slug: string): Promise<{
     [kategorie.id],
   );
 
-  const tools = await query<
-    Pick<ToolLink, "name" | "short_code" | "short_description">
-  >(
+  const tools = await query<ArtikelTool>(
     `
-    SELECT t.name, t.short_code, t.short_description
+    SELECT t.name, t.short_code, t.short_description, t.affiliate_url,
+           t.homepage_url
       FROM tools t
      WHERE t.status = 'veroeffentlicht'
        AND (t.category_id = $1

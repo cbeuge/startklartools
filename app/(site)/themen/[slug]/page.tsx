@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { oeffentlicheKategorie } from "@/lib/oeffentlich";
+import { oeffentlicheKategorie, toolZiel } from "@/lib/oeffentlich";
 import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +31,7 @@ export default async function ThemenSeite({
   if (!daten) notFound();
 
   const { kategorie, artikel, tools } = daten;
+  const hatAffiliate = tools.some((t) => t.affiliate_url);
 
   return (
     <section>
@@ -64,27 +65,43 @@ export default async function ThemenSeite({
               <h2>Empfohlen für {kategorie.name}</h2>
             </div>
             <div className="tool-box" style={{ margin: 0, maxWidth: "none" }}>
-              {tools.map((tool) => (
-                <div className="tool-row" key={tool.short_code}>
-                  <div>
-                    <div className="tr-name">
-                      {tool.name} <span className="aff-stern">*</span>
+              {tools.map((tool) => {
+                const ziel = toolZiel(tool);
+                return (
+                  <div className="tool-row" key={tool.short_code}>
+                    <div>
+                      <div className="tr-name">
+                        {tool.name}
+                        {ziel.affiliate && (
+                          <>
+                            {" "}
+                            <span className="aff-stern">*</span>
+                          </>
+                        )}
+                      </div>
+                      {tool.short_description && (
+                        <div className="tr-desc">{tool.short_description}</div>
+                      )}
                     </div>
-                    {tool.short_description && (
-                      <div className="tr-desc">{tool.short_description}</div>
+                    {ziel.href && (
+                      <a
+                        className="btn-primary"
+                        href={ziel.href}
+                        rel={
+                          ziel.affiliate
+                            ? "sponsored nofollow"
+                            : "nofollow noopener"
+                        }
+                        {...(ziel.affiliate ? {} : { target: "_blank" })}
+                      >
+                        Zum Anbieter
+                      </a>
                     )}
                   </div>
-                  <a
-                    className="btn-primary"
-                    href={`/go/${tool.short_code}`}
-                    rel="sponsored nofollow"
-                  >
-                    Zum Anbieter
-                  </a>
-                </div>
-              ))}
+                );
+              })}
             </div>
-            <AffiliateHinweis breit />
+            {hatAffiliate && <AffiliateHinweis breit />}
           </div>
         )}
       </div>

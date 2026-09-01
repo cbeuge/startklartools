@@ -20,10 +20,16 @@ function checklistenNormalisieren(md: string): string {
 // /go/<code>, damit ein fehlender Schraegstrich nicht auf /ratgeber/go/... zeigt.
 const GO_LINK = /^(?:https?:\/\/[^/]+)?\/?go\/([a-z0-9_-]+)(\?[^#]*)?(#.*)?$/i;
 
+export type GoZiel = { url: string; affiliate: boolean };
+
 export type MarkdownOptions = {
   // Slug des Artikels, aus dem gerendert wird. Wird an /go/-Links als ?a=
   // angehaengt, damit der Klick dem Artikel zugeordnet werden kann.
   artikelSlug?: string;
+  // Auflösung der /go/<code>-Links: Tool mit Affiliate-Link -> bleibt /go/
+  // (getrackt, mit Stern). Tool ohne Affiliate-Link -> direkter Link auf die
+  // Anbieter-Seite, ohne Stern. Fehlt der Code hier, bleibt /go/ als Fallback.
+  goZiele?: Record<string, GoZiel>;
 };
 
 // Rendert Markdown zu HTML und saeubert es. Wird sowohl fuer die Live-Vorschau
@@ -58,7 +64,15 @@ export function renderMarkdown(md: string, opts: MarkdownOptions = {}): string {
         const href = (attribs.href ?? "").trim();
         const go = href.match(GO_LINK);
         if (go) {
-          const code = go[1];
+          const code = go[1].toLowerCase();
+          const ziel = opts.goZiele?.[code];
+          if (ziel && !ziel.affiliate) {
+            // Kein Affiliate-Link: direkt auf die Anbieter-Seite, ohne Stern.
+            return {
+              tagName: "a",
+              attribs: { href: ziel.url, rel: "nofollow noopener", target: "_blank" },
+            };
+          }
           const query =
             go[2] ?? (opts.artikelSlug ? `?a=${opts.artikelSlug}` : "");
           return {

@@ -7,6 +7,7 @@ import {
   veroeffentlichteTools,
   kuerzel,
   kategorieIcon,
+  toolZiel,
   type ToolLink,
 } from "@/lib/oeffentlich";
 import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
@@ -44,6 +45,7 @@ export default async function Startseite() {
     veroeffentlichteTools(),
   ]);
   const toolGruppen = toolsNachKategorie(tools);
+  const hatAffiliate = tools.some((t) => t.affiliate_url);
 
   return (
     <>
@@ -234,16 +236,33 @@ export default async function Startseite() {
                 <div className="tool-cat" key={gruppe.name}>
                   <h3>{gruppe.name}</h3>
                   <ul>
-                    {gruppe.tools.slice(0, 4).map((tool) => (
-                      <li key={tool.short_code}>
-                        <a href={`/go/${tool.short_code}`} rel="sponsored nofollow">
-                          <span>
-                            {tool.name} <span className="aff-stern">*</span>
-                          </span>
-                          <span className="arr">→</span>
-                        </a>
-                      </li>
-                    ))}
+                    {gruppe.tools.slice(0, 4).map((tool) => {
+                      const ziel = toolZiel(tool);
+                      return (
+                        <li key={tool.short_code}>
+                          <a
+                            href={ziel.href}
+                            rel={
+                              ziel.affiliate
+                                ? "sponsored nofollow"
+                                : "nofollow noopener"
+                            }
+                            {...(ziel.affiliate ? {} : { target: "_blank" })}
+                          >
+                            <span>
+                              {tool.name}
+                              {ziel.affiliate && (
+                                <>
+                                  {" "}
+                                  <span className="aff-stern">*</span>
+                                </>
+                              )}
+                            </span>
+                            <span className="arr">→</span>
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
                   <Link className="tool-cat-link" href="/tools">
                     Details
@@ -263,7 +282,7 @@ export default async function Startseite() {
                 Zur ausführlichen Tool-Übersicht
               </Link>
             </p>
-            <AffiliateHinweis breit />
+            {hatAffiliate && <AffiliateHinweis breit />}
           </div>
         </section>
       )}

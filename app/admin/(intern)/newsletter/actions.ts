@@ -11,6 +11,7 @@ import {
   signaturText,
 } from "@/lib/mail";
 import { aktiveEmpfaenger } from "@/lib/newsletter";
+import { goZieleFuerText } from "@/lib/oeffentlich";
 
 export type VersandState = {
   fehler?: string;
@@ -24,7 +25,7 @@ const MAX_EMPFAENGER = 500;
 
 export async function vorschau(md: string): Promise<string> {
   await requireAdmin();
-  return renderMarkdown(md);
+  return renderMarkdown(md, { goZiele: await goZieleFuerText(md) });
 }
 
 function mailHuelle(innerHtml: string, abmeldeUrl: string): string {
@@ -76,7 +77,8 @@ export async function newsletterSenden(
   }
 
   const basis = (process.env.NEXT_PUBLIC_BASE_URL ?? "").replace(/\/+$/, "");
-  const inhaltHtml = linksAbsolut(renderMarkdown(inhalt), basis);
+  const goZiele = await goZieleFuerText(inhalt);
+  const inhaltHtml = linksAbsolut(renderMarkdown(inhalt, { goZiele }), basis);
 
   let gesendet = 0;
   let fehlgeschlagen = 0;
