@@ -4,6 +4,7 @@ import {
   guidesUebersicht,
   themenKategorien,
   kuerzel,
+  kategorieIcon,
   datum,
   type GuideKarte,
 } from "@/lib/oeffentlich";
@@ -25,9 +26,14 @@ function Medien({ guide }: { guide: GuideKarte }) {
       </div>
     );
   }
+  const icon = guide.kategorie_slug ? kategorieIcon(guide.kategorie_slug) : null;
   return (
     <div className="g-media-leer">
-      <span>{guide.kategorie_name ? kuerzel(guide.kategorie_name) : "ST"}</span>
+      {icon ? (
+        <span className="g-icon" dangerouslySetInnerHTML={{ __html: icon }} />
+      ) : (
+        <span>{guide.kategorie_name ? kuerzel(guide.kategorie_name) : "ST"}</span>
+      )}
     </div>
   );
 }

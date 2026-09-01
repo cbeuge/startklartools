@@ -787,7 +787,7 @@
   align-items: center;
   justify-content: center;
 }
-.site-shell .g-media-leer span {
+.site-shell .g-media-leer span:not(.g-icon) {
   font-family: var(--font-mono), monospace;
   font-weight: 700;
   color: var(--stamp);
@@ -799,6 +799,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.site-shell .g-media-leer .g-icon {
+  display: block;
+  color: var(--stamp);
+}
+.site-shell .g-media-leer .g-icon svg {
+  display: block;
+  width: 44px;
+  height: 44px;
 }
 .site-shell .g-meta {
   font-size: 11px;
