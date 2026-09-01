@@ -20,6 +20,7 @@ export default async function NeuesTool() {
             short_code: "",
             category_id: null,
             status: "entwurf",
+            featured: false,
             logo_url: "",
             commission_info: "",
             notes: "",

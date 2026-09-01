@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { toolsFuerSeite, type ToolDetail } from "@/lib/oeffentlich";
 import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 type Unter = { name: string; slug: string; tools: ToolDetail[] };
-type Ober = { name: string; slug: string | null; unter: Unter[] };
+type Ober = { name: string; slug: string; unter: Unter[] };
 
 function gruppieren(tools: ToolDetail[]): Ober[] {
   const ober = new Map<string, Ober>();
@@ -20,11 +21,7 @@ function gruppieren(tools: ToolDetail[]): Ober[] {
     const oberKey = t.oberkategorie_slug ?? t.kategorie_slug;
     const oberName = t.oberkategorie_name ?? t.kategorie_name;
     if (!ober.has(oberKey)) {
-      ober.set(oberKey, {
-        name: oberName,
-        slug: t.oberkategorie_slug,
-        unter: [],
-      });
+      ober.set(oberKey, { name: oberName, slug: oberKey, unter: [] });
     }
     const o = ober.get(oberKey)!;
     let u = o.unter.find((x) => x.slug === t.kategorie_slug);
@@ -100,9 +97,21 @@ function ToolKarte({ tool }: { tool: ToolDetail }) {
   );
 }
 
-export default async function ToolsSeite() {
+export default async function ToolsSeite({
+  searchParams,
+}: {
+  searchParams: Promise<{ kategorie?: string }>;
+}) {
+  const { kategorie } = await searchParams;
   const tools = await toolsFuerSeite();
-  const gruppen = gruppieren(tools);
+
+  const featured = tools.filter((t) => t.featured);
+  const gruppen = gruppieren(tools.filter((t) => !t.featured));
+  const pills = gruppen.map((g) => ({ slug: g.slug, name: g.name }));
+  const vorhanden = new Set(pills.map((p) => p.slug));
+
+  const aktiv = kategorie && vorhanden.has(kategorie) ? kategorie : "";
+  const sichtbar = aktiv ? gruppen.filter((g) => g.slug === aktiv) : gruppen;
   const hatAffiliate = tools.some((t) => t.affiliate_url);
 
   return (
@@ -118,26 +127,61 @@ export default async function ToolsSeite() {
           Affiliate-Link.
         </p>
 
-        {gruppen.length === 0 ? (
+        {tools.length === 0 ? (
           <p style={{ color: "var(--ink-soft)" }}>
             Die Tool-Übersicht wird gerade aufgebaut.
           </p>
         ) : (
-          gruppen.map((o) => (
-            <div key={o.slug ?? o.name} className="tools-ober">
-              <h3>{o.name}</h3>
-              {o.unter.map((u) => (
-                <div key={u.slug} className="tools-unter">
-                  {u.name !== o.name && (
-                    <span className="mono tools-unter-titel">{u.name}</span>
-                  )}
-                  {u.tools.map((t) => (
-                    <ToolKarte key={t.slug} tool={t} />
-                  ))}
-                </div>
-              ))}
-            </div>
-          ))
+          <>
+            {featured.length > 0 && (
+              <div className="tools-featured">
+                <span className="mono tools-featured-titel">
+                  {featured.length > 1 ? "Hauptempfehlungen" : "Hauptempfehlung"}
+                </span>
+                {featured.map((t) => (
+                  <ToolKarte key={t.slug} tool={t} />
+                ))}
+              </div>
+            )}
+
+            {pills.length > 0 && (
+              <div className="g-filter">
+                <Link
+                  href="/tools"
+                  className={aktiv === "" ? "g-pill g-pill-aktiv" : "g-pill"}
+                >
+                  Alle
+                </Link>
+                {pills.map((k) => (
+                  <Link
+                    key={k.slug}
+                    href={`/tools?kategorie=${k.slug}`}
+                    className={
+                      aktiv === k.slug ? "g-pill g-pill-aktiv" : "g-pill"
+                    }
+                  >
+                    {k.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {sichtbar.map((o) => (
+              <div key={o.slug} className="tools-ober">
+                <h3>{o.name}</h3>
+                {o.unter.map((u) => (
+                  <div key={u.slug} className="tools-unter">
+                    {u.name !== o.name && (
+                      <span className="mono tools-unter-titel">{u.name}</span>
+                    )}
+                    {u.tools.map((t) => (
+                      <ToolKarte key={t.slug} tool={t} />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </>
         )}
 
         {hatAffiliate && <AffiliateHinweis breit />}

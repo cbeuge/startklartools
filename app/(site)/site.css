@@ -652,6 +652,19 @@
   color: var(--ink-soft);
   margin-bottom: 40px;
 }
+.site-shell .tools-featured {
+  margin-bottom: 8px;
+}
+.site-shell .tools-featured-titel {
+  display: block;
+  font-size: 12px;
+  color: var(--stamp-dark);
+  margin-bottom: 14px;
+}
+.site-shell .tools-featured .tool-karte {
+  border-color: var(--stamp);
+  border-left-width: 3px;
+}
 .site-shell .tools-ober {
   margin-top: 44px;
 }

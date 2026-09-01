@@ -96,6 +96,7 @@ export type ToolDetail = {
   preise: Preisstufe[];
   fuer_wen: string[];
   preis_stand: string;
+  featured: boolean;
   affiliate_url: string;
   homepage_url: string;
   logo_url: string;
@@ -110,8 +111,8 @@ export type ToolDetail = {
 export function toolsFuerSeite(): Promise<ToolDetail[]> {
   return query<ToolDetail>(`
     SELECT t.slug, t.name, t.short_code, t.short_description, t.beschreibung,
-           t.preise, t.fuer_wen, t.preis_stand, t.affiliate_url, t.homepage_url,
-           t.logo_url,
+           t.preise, t.fuer_wen, t.preis_stand, t.featured, t.affiliate_url,
+           t.homepage_url, t.logo_url,
            c.name AS kategorie_name, c.slug AS kategorie_slug,
            pc.name AS oberkategorie_name, pc.slug AS oberkategorie_slug
       FROM tools t

@@ -110,6 +110,7 @@ export default async function ToolBearbeiten({
             short_code: t.short_code,
             category_id: t.category_id,
             status: t.status,
+            featured: t.featured,
             logo_url: t.logo_url,
             commission_info: t.commission_info,
             notes: t.notes,

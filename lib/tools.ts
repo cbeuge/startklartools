@@ -22,6 +22,7 @@ export type Tool = {
   preise: Preisstufe[];
   fuer_wen: string[];
   preis_stand: string;
+  featured: boolean;
   created_at: string;
   updated_at: string;
 };

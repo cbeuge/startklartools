@@ -55,6 +55,7 @@ export async function toolSpeichern(
   const category_id = categoryRaw ? Number(categoryRaw) : null;
   const status =
     formData.get("status") === "veroeffentlicht" ? "veroeffentlicht" : "entwurf";
+  const featured = formData.get("featured") === "on";
   const logo_url = String(formData.get("logo_url") ?? "").trim();
   const commission_info = String(formData.get("commission_info") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim();
@@ -119,13 +120,13 @@ export async function toolSpeichern(
            short_code = $5, category_id = $6, status = $7, logo_url = $8,
            commission_info = $9, notes = $10, beschreibung = $11,
            preise = $12::jsonb, fuer_wen = $13::jsonb, preis_stand = $14,
-           homepage_url = $15
-         WHERE id = $16`,
+           homepage_url = $15, featured = $16
+         WHERE id = $17`,
         [
           slug, name, short_description, affiliate_url, short_code,
           category_id, status, logo_url, commission_info, notes, beschreibung,
           JSON.stringify(preise), JSON.stringify(fuer_wen), preis_stand,
-          homepage_url, id,
+          homepage_url, featured, id,
         ],
       );
       toolId = id;
@@ -134,14 +135,14 @@ export async function toolSpeichern(
         `INSERT INTO tools
            (slug, name, short_description, affiliate_url, short_code,
             category_id, status, logo_url, commission_info, notes,
-            beschreibung, preise, fuer_wen, preis_stand, homepage_url)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb,$13::jsonb,$14,$15)
+            beschreibung, preise, fuer_wen, preis_stand, homepage_url, featured)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::jsonb,$13::jsonb,$14,$15,$16)
          RETURNING id`,
         [
           slug, name, short_description, affiliate_url, short_code,
           category_id, status, logo_url, commission_info, notes, beschreibung,
           JSON.stringify(preise), JSON.stringify(fuer_wen), preis_stand,
-          homepage_url,
+          homepage_url, featured,
         ],
       );
       toolId = res.rows[0].id;

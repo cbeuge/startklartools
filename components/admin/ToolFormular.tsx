@@ -20,6 +20,7 @@ export type ToolInitial = {
   short_code: string;
   category_id: number | null;
   status: "entwurf" | "veroeffentlicht";
+  featured: boolean;
   logo_url: string;
   commission_info: string;
   notes: string;
@@ -55,6 +56,7 @@ export function ToolFormular({
     initial.category_id ? String(initial.category_id) : "",
   );
   const [status, setStatus] = useState<string>(initial.status);
+  const [featured, setFeatured] = useState(initial.featured);
   const [logoUrl, setLogoUrl] = useState(initial.logo_url);
   const [commissionInfo, setCommissionInfo] = useState(initial.commission_info);
   const [notes, setNotes] = useState(initial.notes);
@@ -190,6 +192,22 @@ export function ToolFormular({
           </select>
         </label>
       </div>
+
+      <label className="flex items-start gap-2">
+        <input
+          type="checkbox"
+          name="featured"
+          checked={featured}
+          onChange={(e) => setFeatured(e.target.checked)}
+          className="mt-1"
+        />
+        <span className="text-sm text-slate-600">
+          Hauptempfehlung
+          <span className="block text-xs text-slate-400">
+            steht auf der /tools-Seite ganz oben, über dem Kategorie-Filter
+          </span>
+        </span>
+      </label>
 
       <label className="block">
         <span className="text-sm text-slate-600">Logo (URL)</span>
