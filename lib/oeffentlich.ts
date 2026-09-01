@@ -50,8 +50,11 @@ export function toolZiel(
 }
 
 // Baut die goZiele-Auflösung für alle /go/<code>-Links in einem Markdown-Text.
-// Tool mit Affiliate-Link -> /go/ bleibt (getrackt, mit Stern), sonst direkter
-// Link auf die Anbieter-Seite. Für renderMarkdown(md, { goZiele }).
+// Veröffentlichtes Tool: mit Affiliate-Link bleibt /go/ (getrackt, mit Stern),
+// ohne Affiliate-Link direkt auf die Anbieter-Seite. Tool im Entwurf: nur noch
+// direkter, ungetrackter Link auf die Anbieter-Seite, ohne Stern und ohne
+// Affiliate-Hinweis – so bleibt der Link im veröffentlichten Artikel gültig,
+// auch während das Tool überarbeitet wird. Für renderMarkdown(md, { goZiele }).
 export async function goZieleFuerText(
   md: string,
   artikelSlug?: string,
@@ -69,18 +72,21 @@ export async function goZieleFuerText(
     short_code: string;
     affiliate_url: string;
     homepage_url: string;
+    status: string;
   }>(
-    `SELECT short_code, affiliate_url, homepage_url FROM tools
-      WHERE lower(short_code) = ANY($1) AND status = 'veroeffentlicht'`,
+    `SELECT short_code, affiliate_url, homepage_url, status FROM tools
+      WHERE lower(short_code) = ANY($1)`,
     [codes],
   );
   for (const r of rows) {
-    const z = toolZiel(r, artikelSlug);
-    if (z.href)
-      goZiele[r.short_code.toLowerCase()] = {
-        url: z.href,
-        affiliate: z.affiliate,
-      };
+    const code = r.short_code.toLowerCase();
+    if (r.status === "veroeffentlicht") {
+      const z = toolZiel(r, artikelSlug);
+      if (z.href) goZiele[code] = { url: z.href, affiliate: z.affiliate };
+    } else {
+      const url = r.homepage_url || r.affiliate_url;
+      if (url) goZiele[code] = { url, affiliate: false };
+    }
   }
   return goZiele;
 }

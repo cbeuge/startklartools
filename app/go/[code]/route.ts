@@ -62,12 +62,19 @@ export async function GET(
     id: number;
     affiliate_url: string;
     homepage_url: string;
+    status: string;
   }>(
-    "SELECT id, affiliate_url, homepage_url FROM tools WHERE short_code = $1 AND status = 'veroeffentlicht'",
+    "SELECT id, affiliate_url, homepage_url, status FROM tools WHERE short_code = $1",
     [code],
   );
-  // Solange kein Affiliate-Link gesetzt ist, auf die Anbieter-Seite leiten.
-  const ziel = t && (t.affiliate_url || t.homepage_url);
+  // Veröffentlicht: Affiliate-Link, sonst Anbieter-Seite. Im Entwurf (z.B.
+  // während einer Überarbeitung) leiten alte Links weiter auf die
+  // Anbieter-Seite, damit nichts ins Leere läuft.
+  const ziel =
+    t &&
+    (t.status === "veroeffentlicht"
+      ? t.affiliate_url || t.homepage_url
+      : t.homepage_url || t.affiliate_url);
   if (!t || !ziel) {
     return new NextResponse("Link nicht gefunden.", { status: 404 });
   }
