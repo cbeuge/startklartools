@@ -126,6 +126,8 @@ export type OeffArtikel = {
   updated_at: string;
   kategorie_name: string | null;
   kategorie_slug: string | null;
+  kategorie_icon: string | null;
+  lesezeit_min: number;
 };
 
 export type VerwandterArtikel = {
@@ -143,7 +145,10 @@ export async function oeffentlicherArtikel(slug: string): Promise<{
     `
     SELECT a.id, a.slug, a.title, a.excerpt, a.content_md, a.meta_title,
            a.meta_description, a.hero_image_url, a.published_at, a.updated_at,
-           c.name AS kategorie_name, c.slug AS kategorie_slug
+           c.name AS kategorie_name, c.slug AS kategorie_slug, c.icon AS kategorie_icon,
+           GREATEST(1, ceil(
+             coalesce(array_length(regexp_split_to_array(btrim(a.content_md), '\\s+'), 1), 1) / 200.0
+           ))::int AS lesezeit_min
       FROM articles a
       LEFT JOIN categories c ON c.id = a.category_id
      WHERE a.slug = $1 AND a.status = 'veroeffentlicht'

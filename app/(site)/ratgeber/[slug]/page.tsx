@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { oeffentlicherArtikel } from "@/lib/oeffentlich";
+import { oeffentlicherArtikel, kategorieIcon } from "@/lib/oeffentlich";
 import { renderMarkdown } from "@/lib/markdown";
 import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
 
@@ -40,24 +40,37 @@ export default async function ArtikelSeite({
 
   const { artikel, tools, verwandt } = daten;
   const html = renderMarkdown(artikel.content_md, { artikelSlug: artikel.slug });
+  const icon = kategorieIcon(artikel.kategorie_icon);
   const hatAffiliate = tools.length > 0 || html.includes('href="/go/');
 
   return (
     <article className="article">
       <div className="wrap">
         <div className="article-head">
-          {artikel.kategorie_name && (
-            <span className="mono">
-              {artikel.kategorie_slug ? (
-                <Link href={`/themen/${artikel.kategorie_slug}`}>
-                  {artikel.kategorie_name}
-                </Link>
-              ) : (
-                artikel.kategorie_name
-              )}
-            </span>
-          )}
           <h1>{artikel.title}</h1>
+          <div className="article-meta mono">
+            {icon && (
+              <span
+                className="article-meta-icon"
+                dangerouslySetInnerHTML={{ __html: icon }}
+              />
+            )}
+            <span className="article-meta-text">
+              {artikel.kategorie_name && (
+                <>
+                  {artikel.kategorie_slug ? (
+                    <Link href={`/themen/${artikel.kategorie_slug}`}>
+                      {artikel.kategorie_name}
+                    </Link>
+                  ) : (
+                    artikel.kategorie_name
+                  )}
+                  {" · "}
+                </>
+              )}
+              {artikel.lesezeit_min} Min. Lesezeit
+            </span>
+          </div>
         </div>
 
         {artikel.hero_image_url && (
