@@ -157,7 +157,7 @@ export default async function Startseite() {
             </div>
             <div className="themen-grid">
               {themen.map((t) => {
-                const icon = kategorieIcon(t.slug);
+                const icon = kategorieIcon(t.icon);
                 return (
                   <Link
                     key={t.id}

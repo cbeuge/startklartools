@@ -10,6 +10,7 @@ export type Kategorie = {
   parent_id: number | null;
   sort_order: number;
   status: KategorieStatus;
+  icon: string;
 };
 
 // Alle Kategorien, auch Entwürfe – fürs Admin (Auswahllisten, Verwaltung).

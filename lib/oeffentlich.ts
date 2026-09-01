@@ -1,34 +1,16 @@
 import "server-only";
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import { query, queryOne } from "@/db/pool";
 
-// Inline-SVG-Icon einer Kategorie aus public/icon-<slug>.svg. Inline, damit
-// currentColor auf die CSS-Farbe greift. null, wenn es keine Datei gibt –
-// dann fällt die Kachel auf das Zwei-Buchstaben-Kürzel zurück.
-const iconCache = new Map<string, string | null>();
-export function kategorieIcon(slug: string): string | null {
-  if (iconCache.has(slug)) return iconCache.get(slug) ?? null;
-  let svg: string | null = null;
-  if (/^[a-z0-9-]+$/.test(slug)) {
-    try {
-      svg = readFileSync(
-        path.join(process.cwd(), "public", `icon-${slug}.svg`),
-        "utf8",
-      );
-    } catch {
-      svg = null;
-    }
-  }
-  iconCache.set(slug, svg);
-  return svg;
-}
+// Icon-SVG einer Kategorie anhand des in categories.icon gespeicherten
+// Schlüssels. Inline gerendert, damit currentColor auf die CSS-Farbe greift.
+export { iconSvg as kategorieIcon } from "./kategorie-icons";
 
 export type OeffKategorie = {
   id: number;
   slug: string;
   name: string;
   parent_id: number | null;
+  icon: string;
 };
 
 export type GuideKarte = {
@@ -39,6 +21,7 @@ export type GuideKarte = {
   published_at: string | null;
   kategorie_name: string | null;
   kategorie_slug: string | null;
+  kategorie_icon: string | null;
   lesezeit_min: number;
 };
 
@@ -55,7 +38,7 @@ export type ToolLink = {
 // aus der Wortzahl (200 Wörter/Minute), mindestens 1.
 const GUIDE_COLS = `
   a.slug, a.title, a.excerpt, a.hero_image_url, a.published_at,
-  c.name AS kategorie_name, c.slug AS kategorie_slug,
+  c.name AS kategorie_name, c.slug AS kategorie_slug, c.icon AS kategorie_icon,
   GREATEST(1, ceil(
     coalesce(array_length(regexp_split_to_array(btrim(a.content_md), '\\s+'), 1), 1) / 200.0
   ))::int AS lesezeit_min
@@ -64,7 +47,7 @@ const GUIDE_COLS = `
 // Veröffentlichte Oberkategorien für die Themen-Kacheln und den Footer.
 export function themenKategorien(): Promise<OeffKategorie[]> {
   return query<OeffKategorie>(`
-    SELECT id, slug, name, parent_id
+    SELECT id, slug, name, parent_id, icon
       FROM categories
      WHERE parent_id IS NULL AND status = 'veroeffentlicht'
      ORDER BY sort_order, name
@@ -211,7 +194,7 @@ export async function oeffentlicheKategorie(slug: string): Promise<{
   tools: Pick<ToolLink, "name" | "short_code" | "short_description">[];
 } | null> {
   const kategorie = await queryOne<OeffKategorie>(
-    "SELECT id, slug, name, parent_id FROM categories WHERE slug = $1 AND status = 'veroeffentlicht'",
+    "SELECT id, slug, name, parent_id, icon FROM categories WHERE slug = $1 AND status = 'veroeffentlicht'",
     [slug],
   );
   if (!kategorie) return null;

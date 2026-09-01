@@ -1,4 +1,5 @@
 import { alleKategorien } from "@/lib/kategorien";
+import { IconPicker } from "@/components/admin/IconPicker";
 import {
   kategorieAnlegen,
   kategorieBearbeiten,
@@ -60,6 +61,7 @@ export default async function KategorienPage({
             <option value="veroeffentlicht">Veröffentlicht</option>
           </select>
         </label>
+        <IconPicker />
         <button
           type="submit"
           className="rounded bg-marke px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
@@ -116,6 +118,7 @@ export default async function KategorienPage({
             <span className="pb-1.5 font-mono text-xs text-slate-400">
               /themen/{k.slug}
             </span>
+            <IconPicker value={k.icon} />
             <div className="ml-auto flex items-center gap-3 pb-1">
               <button
                 type="submit"

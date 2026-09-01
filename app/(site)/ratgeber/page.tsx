@@ -26,7 +26,7 @@ function Medien({ guide }: { guide: GuideKarte }) {
       </div>
     );
   }
-  const icon = guide.kategorie_slug ? kategorieIcon(guide.kategorie_slug) : null;
+  const icon = kategorieIcon(guide.kategorie_icon);
   return (
     <div className="g-media-leer">
       {icon ? (
