@@ -440,7 +440,7 @@
   border-bottom: 1px solid var(--stamp);
 }
 
-/* Vertrauen */
+/* Warum es diese Seite gibt */
 .site-shell .trust {
   background: var(--paper-raised);
   border-top: 1px solid var(--line);
@@ -448,25 +448,52 @@
 }
 .site-shell .trust-inner {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 32px;
+  grid-template-columns: 168px 1fr;
+  gap: 36px;
   align-items: start;
   /* wie .nav: seitliches Padding von .wrap nicht plattmachen */
   padding-top: 56px;
   padding-bottom: 56px;
 }
-.site-shell .trust-badge {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 1.5px solid var(--done);
+.site-shell .trust-photo {
+  width: 168px;
+  height: 200px;
+  border: 1.5px solid var(--line);
+  border-radius: 2px;
+  background: var(--white);
+  padding: 8px 8px 22px;
+  box-shadow: 0 1px 0 var(--line);
+  transform: rotate(-2deg);
+  flex-shrink: 0;
+}
+.site-shell .trust-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 1px;
+}
+.site-shell .trust-photo .placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--paper-raised);
+  color: var(--ink-soft);
+  text-align: center;
   font-family: var(--font-mono), "JetBrains Mono", monospace;
-  font-weight: 700;
-  color: var(--done);
-  font-size: 12px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 10px;
+  border-radius: 1px;
+}
+.site-shell .trust .mono {
+  display: block;
+  font-size: 11.5px;
+  color: var(--stamp-dark);
+  margin-bottom: 10px;
 }
 .site-shell .trust p {
   font-size: 17px;
@@ -474,8 +501,16 @@
   font-family: var(--font-zilla), "Zilla Slab", serif;
   font-weight: 500;
 }
-.site-shell .trust .trust-name {
+.site-shell .trust p.sub {
+  font-size: 15.5px;
+  max-width: 620px;
+  font-family: var(--font-source), "Source Sans 3", sans-serif;
+  font-weight: 400;
+  color: var(--ink-soft);
   margin-top: 14px;
+}
+.site-shell .trust .trust-name {
+  margin-top: 16px;
   font-size: 13.5px;
   color: var(--ink-soft);
   font-family: var(--font-source), "Source Sans 3", sans-serif;
@@ -1044,8 +1079,14 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .site-shell .trust-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
     padding-top: 44px;
     padding-bottom: 44px;
+  }
+  .site-shell .trust-photo {
+    width: 140px;
+    height: 168px;
   }
   .site-shell .footer-grid {
     grid-template-columns: 1fr 1fr;

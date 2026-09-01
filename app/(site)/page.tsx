@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import Link from "next/link";
 import {
   themenKategorien,
@@ -7,6 +9,9 @@ import {
   type ToolLink,
 } from "@/lib/oeffentlich";
 import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
+
+// Zeigt Carstens Foto, sobald public/carsten.jpg existiert, sonst den Platzhalter.
+const HAT_FOTO = existsSync(path.join(process.cwd(), "public", "carsten.jpg"));
 
 // Dynamisch rendern: die Seite spiegelt sofort wider, was im Admin
 // veröffentlicht wird. Die paar Postgres-Abfragen sind vernachlässigbar.
@@ -200,12 +205,40 @@ export default async function Startseite() {
 
       <div className="trust">
         <div className="wrap trust-inner">
-          <div className="trust-badge">1P</div>
+          <div className="trust-photo">
+            {HAT_FOTO ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src="/carsten.jpg" alt="Carsten, Gründer von startklar.tools" />
+            ) : (
+              <div className="placeholder">
+                Foto
+                <br />
+                Carsten
+              </div>
+            )}
+          </div>
           <div>
+            <span className="mono">Warum es diese Seite gibt</span>
             <p>
-              „Ich baue Websites und Tools für Selbstständige seit Jahren.
-              startklar.tools ist die Seite, die ich mir am Anfang selbst
-              gewünscht hätte.“
+              Ich bin Carsten, Baujahr 67, und ich hab mich vor ein paar Jahren
+              selbst durch genau das gekämpft, worüber ich hier schreibe.
+              Zwischen veralteten Foren-Threads, reinen Werbetexten und trockenen
+              Behördenseiten hin- und hergesprungen, ohne eine Stelle, die beides
+              ehrlich zusammenbringt.
+            </p>
+            <p className="sub">
+              startklar.tools ist die Seite, die ich mir damals gewünscht hätte:
+              Guides aus echter Erfahrung statt austauschbarer Ratgeber-Texte,
+              und die Tools, die ich selbst nutze oder ernsthaft geprüft habe,
+              dort eingebettet, wo sie inhaltlich hingehören, nicht als
+              Werbebanner drumherum gebaut. Ein Teil der Links auf dieser Seite
+              sind Affiliate-Links, das ändert nichts daran, was ich empfehle,
+              nur wie sich die Seite finanziert. Ein Teil der Tools habe ich
+              mittlerweile auch selbst durch Claude Code gebaut, weil ich sie so
+              auf meine Bedürfnisse anpassen kann, wie ich sie brauche.
+            </p>
+            <p className="sub">
+              Ich hoffe, ich kann dir mit der Seite weiterhelfen.
             </p>
             <div className="trust-name">
               Gründer von startklar.tools, selbst nebenberuflich unterwegs
