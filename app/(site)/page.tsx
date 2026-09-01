@@ -60,7 +60,7 @@ export default async function Startseite() {
               <Link href="/ratgeber" className="btn-primary">
                 Guides durchstöbern
               </Link>
-              <Link href="/#tools" className="btn-secondary">
+              <Link href="/tools" className="btn-secondary">
                 Tools ansehen
               </Link>
             </div>
@@ -245,14 +245,24 @@ export default async function Startseite() {
                       </li>
                     ))}
                   </ul>
-                  {gruppe.slug && (
-                    <Link className="tool-cat-link" href={`/themen/${gruppe.slug}`}>
-                      Alle ansehen
-                    </Link>
-                  )}
+                  <Link className="tool-cat-link" href="/tools">
+                    Details
+                  </Link>
                 </div>
               ))}
             </div>
+            <p style={{ marginTop: 28 }}>
+              <Link
+                href="/tools"
+                style={{
+                  fontWeight: 600,
+                  color: "var(--ink)",
+                  borderBottom: "1px solid var(--stamp)",
+                }}
+              >
+                Zur ausführlichen Tool-Übersicht
+              </Link>
+            </p>
             <AffiliateHinweis breit />
           </div>
         </section>

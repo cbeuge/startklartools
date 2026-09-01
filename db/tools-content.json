@@ -1,0 +1,307 @@
+{
+  "tools": [
+    {
+      "slug": "qonto",
+      "name": "Qonto",
+      "category": "banking",
+      "tagline": "Geschäftskonto mit eingebauter Rechnungsstellung und direkter DATEV-Anbindung.",
+      "description": "Qonto ist ein Geschäftskonto speziell für Selbstständige, Freiberufler und kleine Unternehmen, mit Rechnungsstellung, Ausgabenverwaltung und Buchhaltungsanbindung direkt im Konto. DATEV-zertifiziert, Bankdaten laufen automatisch ins Rechenzentrum des Steuerberaters.",
+      "pricing": [
+        { "tier": "Starter", "price": "0 €/Monat", "note": "Für Freiberufler und Einzelunternehmer" },
+        { "tier": "Basic", "price": "9 €/Monat", "note": "Mehr Transaktions- und Rechnungsvolumen" },
+        { "tier": "Smart", "price": "19 €/Monat", "note": "Mit Teamzugriff" },
+        { "tier": "Premium", "price": "39 €/Monat", "note": "Höheres Volumen" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Buchhaltung, DATEV-Anbindung und Rechnungsstellung an einer Stelle bündeln",
+        "Bereits mit Steuerberater arbeiten oder das planen",
+        "Später wachsen wollen, ohne das Konto zu wechseln"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["geschaeftskonto-vergleich", "buchhaltung-fuer-anfaenger", "rechnungsprogramme-im-test", "tool-stack-nach-1-jahr"]
+    },
+    {
+      "slug": "n26-business",
+      "name": "N26 Business",
+      "category": "banking",
+      "tagline": "Günstiges, mobiles Geschäftskonto ohne eingebaute Buchhaltung.",
+      "description": "N26 Business ist ein reines Bankkonto für Freiberufler und Einzelunternehmer, die unter eigenem Namen abrechnen. Keine GmbH/UG im Standardangebot, keine eingebaute Rechnungsstellung oder DATEV-Anbindung, dafür niedrigster Preis der drei verglichenen Banking-Tools und ein Cashback-Programm.",
+      "pricing": [
+        { "tier": "Standard", "price": "0 €/Monat", "note": "" },
+        { "tier": "Smart", "price": "4,90 €/Monat", "note": "" },
+        { "tier": "Go", "price": "9,90 €/Monat", "note": "" },
+        { "tier": "Metal", "price": "16,90 €/Monat", "note": "" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Bereits ein Buchhaltungstool vorhanden, nur ein günstiges Konto daneben gesucht",
+        "Reine Freiberufler-/Einzelunternehmer-Nutzung ohne Kapitalgesellschaft"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["geschaeftskonto-vergleich"]
+    },
+    {
+      "slug": "kontist",
+      "name": "Kontist",
+      "category": "banking",
+      "tagline": "Geschäftskonto mit automatischer Echtzeit-Steuerrücklage.",
+      "description": "Kontist berechnet bei jedem Zahlungseingang automatisch die voraussichtliche Einkommen- und Umsatzsteuer und legt sie rechnerisch beiseite. Seit der Übernahme durch Shine (Société Générale) für alle Rechtsformen offen, nicht mehr nur Freiberufler/Einzelunternehmer. Echte Unterkonten mit eigener IBAN gibt es praktisch nicht, nur visuelle Steuertöpfe.",
+      "pricing": [
+        { "tier": "Free", "price": "0 €/Monat", "note": "2 € Inaktivitätsgebühr unter 300 € Monatsumsatz" },
+        { "tier": "Start", "price": "11 €/Monat", "note": "Einfacher DATEV-Export" },
+        { "tier": "Plus", "price": "25 €/Monat", "note": "Voller DATEV-Export inkl. USt-Voranmeldung" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Steuerrücklagen fällt schwer, soll automatisch passieren",
+        "Unregelmäßige Zahlungseingänge, gerade am Anfang"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["geschaeftskonto-vergleich"]
+    },
+    {
+      "slug": "finom",
+      "name": "Finom",
+      "category": "banking",
+      "tagline": "Geschäftskonto mit mehreren echten Unterkonten.",
+      "description": "Finom wurde im Geschäftskonto-Vergleich als Alternative erwähnt, für alle, die im Gegensatz zu Kontist echte Unterkonten mit eigener IBAN brauchen, um z.B. Projektgelder separat von Rücklagen zu verwalten. Bisher nicht im Detail getestet.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Echte Unterkonten mit eigener IBAN gewünscht"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["geschaeftskonto-vergleich"]
+    },
+    {
+      "slug": "sevdesk",
+      "name": "sevDesk",
+      "category": "buchhaltung",
+      "tagline": "Automatisierte Belegerkennung, aber viele Funktionen für Dienstleister ungenutzt.",
+      "description": "sevDesk erkennt Beträge, Datum und Kategorie bei fotografierten Belegen automatisch, sehr starke Automatisierung. Die Oberfläche bietet aber auch Funktionen wie Lagerbestand und mehrere Preislisten, die für reine Dienstleister ohne physische Produkte unnötigen Ballast bedeuten können. Kein dauerhaft kostenloser Tarif, nur Testphase.",
+      "pricing": [
+        { "tier": "Rechnung", "price": "ca. 12 €/Monat", "note": "Nur Rechnungsstellung" },
+        { "tier": "Buchhaltung", "price": "ca. 26 €/Monat", "note": "Mit EÜR und Umsatzsteuervoranmeldung" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Viele Belege automatisiert erfassen",
+        "Physische Produkte, Lagerbestand, mehrere Preislisten relevant"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["buchhaltung-fuer-anfaenger", "rechnungsprogramme-im-test"]
+    },
+    {
+      "slug": "lexware-office",
+      "name": "Lexware Office",
+      "category": "buchhaltung",
+      "tagline": "Reduzierte Bedienung, von vielen Steuerkanzleien bevorzugt.",
+      "description": "Lexware Office (ex-lexoffice) ist bewusst schlanker in der Bedienung als sevDesk, ohne unnötige Zusatzoptionen im Weg. DATEV-Export läuft in der Praxis oft reibungslos mit Steuerberatern zusammen. Für die vollständige EÜR mit Umsatzsteuervoranmeldung und DATEV-Export wird der größere Tarif benötigt.",
+      "pricing": [
+        { "tier": "Basis (S)", "price": "ca. 11 €/Monat", "note": "" },
+        { "tier": "L", "price": "ca. 22 €/Monat", "note": "Volle EÜR, USt-Voranmeldung, DATEV-Export" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Reduzierte, unspektakuläre Bedienung gewünscht",
+        "Reibungsloser Datenaustausch mit Steuerberater wichtig"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["buchhaltung-fuer-anfaenger", "rechnungsprogramme-im-test", "tool-stack-nach-1-jahr"]
+    },
+    {
+      "slug": "fastbill",
+      "name": "FastBill",
+      "category": "buchhaltung",
+      "tagline": "Schlanke, schnelle Rechnungsstellung mit gutem Mahnwesen.",
+      "description": "FastBill fokussiert auf Rechnungsstellung und wiederkehrende Rechnungen, inklusive automatischem Mahnwesen bei überfälligen Zahlungen. Für eine vollständige EÜR-pflichtige Buchhaltung im Vergleich zu sevDesk oder Lexware Office spürbar schwächer aufgestellt.",
+      "pricing": [
+        { "tier": "Einstieg", "price": "ab ca. 9 €/Monat", "note": "" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Rechnungsstellung und Mahnwesen sind der Hauptbedarf",
+        "EÜR-Auswertung läuft woanders (Steuerberater, separates Tool)"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["buchhaltung-fuer-anfaenger", "rechnungsprogramme-im-test"]
+    },
+    {
+      "slug": "malt",
+      "name": "Malt",
+      "category": "kundengewinnung",
+      "tagline": "Plattform, die Freelancer mit Projekten vermittelt.",
+      "description": "Freelancer-Vermittlungsplattform. Realistische Erfolgsquote liegt bei ausführlichem, konkretem Profil mit echten Beispielprojekten eher bei 1 Auftrag pro 15-20 Bewerbungen, kein Ersatz für Netzwerk-Akquise, aber guter Zusatzkanal.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Zusätzlicher Akquisekanal neben dem eigenen Netzwerk",
+        "Geduld für eine niedrigere Erfolgsquote pro Bewerbung"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["erste-5-kunden", "tool-stack-nach-1-jahr"]
+    },
+    {
+      "slug": "buffer",
+      "name": "Buffer",
+      "category": "social-media",
+      "tagline": "Social-Media-Beiträge im Voraus planen und einplanen.",
+      "description": "Ermöglicht, mehrere Beiträge an einem Termin im Monat vorzubereiten und automatisch einzuplanen, statt jeden Tag neu zu überlegen, was gepostet wird. Reduziert den täglichen Aufwand, ohne Spontaneität zu verhindern.",
+      "pricing": [
+        { "tier": "Kleinster bezahlter Tarif", "price": "ca. 6 €/Monat", "note": "" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Eine Plattform konsequent bespielen statt mehrere sporadisch"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["social-media-strategie", "tool-stack-nach-1-jahr"]
+    },
+    {
+      "slug": "later",
+      "name": "Later",
+      "category": "social-media",
+      "tagline": "Planungstool mit Fokus auf visuelle Plattformen.",
+      "description": "Alternative zu Buffer, stärkerer Fokus auf Bildplanung für Instagram und Pinterest. Bisher nur am Rande erwähnt, nicht im Detail getestet.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Mehrere visuelle Plattformen gleichzeitig (Instagram, Pinterest)"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["social-media-strategie"]
+    },
+    {
+      "slug": "metricool",
+      "name": "Metricool",
+      "category": "social-media",
+      "tagline": "Planungs- und Analyse-Tool für mehrere Plattformen.",
+      "description": "Ähnlich wie Later mit Fokus auf visuelle Plattformen, bisher nur am Rande erwähnt, nicht im Detail getestet.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Mehrere visuelle Plattformen gleichzeitig (Instagram, Pinterest)"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["social-media-strategie"]
+    },
+    {
+      "slug": "toggl-track",
+      "name": "Toggl Track",
+      "category": "organisation",
+      "tagline": "Einfache Zeiterfassung, ein Timer pro Projekt.",
+      "description": "Zeiterfassung ohne minutengenaue Aufschlüsselung nach Einzelaufgaben, ein Timer pro Projekt reicht. Nutzen: echte Daten für Preiskalkulation, ehrliches Bild der Auslastung, Frühwarnsystem gegen Selbstausbeutung.",
+      "pricing": [
+        { "tier": "Kostenlos", "price": "0 €/Monat", "note": "Reicht für Solo-Nutzung meist aus" }
+      ],
+      "pricing_status": "geprüft_2026-09",
+      "fuer_wen": [
+        "Preiskalkulation anhand echter statt geschätzter Zeit überprüfen",
+        "Überstunden/Selbstausbeutung früh erkennen"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["tool-stack-nach-1-jahr", "zeiterfassung"]
+    },
+    {
+      "slug": "notion",
+      "name": "Notion",
+      "category": "organisation",
+      "tagline": "Team-Tool, für Einzelpersonen oft zu viel Einrichtungsaufwand.",
+      "description": "Ursprünglich getestet und wieder verlassen: als Team-Tool mit Datenbanken, Relationen und Filtern gebaut, für eine Einzelperson meistens zu viel Struktur, die dann doch nicht genutzt wird. Im Tool-Stack-Artikel als Negativbeispiel beschrieben, gegen ein einfacheres Board-System getauscht.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Eher für Teams mit echtem Abstimmungsbedarf als für Solo-Selbstständige"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["projekte-verwalten", "tool-stack-nach-1-jahr"]
+    },
+    {
+      "slug": "hubspot",
+      "name": "HubSpot",
+      "category": "crm",
+      "tagline": "CRM mit kostenlosem Einstieg, für Solo-Selbstständige oft überdimensioniert.",
+      "description": "Im Tool-Stack-Artikel als Negativbeispiel erwähnt: für die eigene Größe als zu groß eingeschätzt, stattdessen eine selbstgebaute, einfache Lösung genutzt. Kein eigener Test bisher.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Eher für wachsende Teams mit echtem Vertriebsprozess"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["tool-stack-nach-1-jahr"]
+    },
+    {
+      "slug": "pipedrive",
+      "name": "Pipedrive",
+      "category": "crm",
+      "tagline": "Vertriebs-CRM, für Solo-Selbstständige oft überdimensioniert.",
+      "description": "Wie HubSpot im Tool-Stack-Artikel als für die eigene Größe zu groß eingeschätzt, kein eigener Test bisher.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Eher für wachsende Teams mit echtem Vertriebsprozess"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["tool-stack-nach-1-jahr"]
+    },
+    {
+      "slug": "wix",
+      "name": "Wix",
+      "category": "website",
+      "tagline": "Baukasten, in wenigen Stunden online, dafür Anbieter-gebunden.",
+      "description": "Website-Baukasten, pragmatischer Standardweg für den Einstieg ohne technisches Vorwissen. Umzug zu anderem System später aufwändig, da Content oft nicht sauber exportierbar.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Schneller Einstieg ohne Hosting-/Technik-Aufwand",
+        "Zeit besser in Kundenprojekte investieren als in Website-Bastelei"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["website-fuer-freelancer"]
+    },
+    {
+      "slug": "squarespace",
+      "name": "Squarespace",
+      "category": "website",
+      "tagline": "Baukasten mit starkem Design-Fokus.",
+      "description": "Alternative zu Wix und Jimdo, gleiche Vor- und Nachteile: schneller Einstieg, dafür Anbieter-Bindung.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Schneller Einstieg ohne Hosting-/Technik-Aufwand"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["website-fuer-freelancer"]
+    },
+    {
+      "slug": "jimdo",
+      "name": "Jimdo",
+      "category": "website",
+      "tagline": "Deutscher Baukasten-Anbieter.",
+      "description": "Alternative zu Wix und Squarespace, gleiche Vor- und Nachteile: schneller Einstieg, dafür Anbieter-Bindung.",
+      "pricing": [],
+      "pricing_status": "noch_nicht_geprüft",
+      "fuer_wen": [
+        "Schneller Einstieg ohne Hosting-/Technik-Aufwand"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["website-fuer-freelancer"]
+    },
+    {
+      "slug": "wordpress",
+      "name": "WordPress",
+      "category": "website",
+      "tagline": "Mehr Kontrolle als ein Baukasten, aber laufender Wartungsaufwand.",
+      "description": "Mittelweg zwischen Baukasten und komplett selbst entwickelter Seite. Mehr Freiheit bei Design und Funktionen über Plugins, dafür Hosting selbst organisieren und Kern/Theme/Plugins regelmäßig aktualisieren, sonst Sicherheitsrisiko. Kein Affiliate-Programm, freie Open-Source-Software.",
+      "pricing": [],
+      "pricing_status": "kein_affiliate",
+      "fuer_wen": [
+        "Technisch nicht komplett unbedarft, bereit sich einzuarbeiten",
+        "Langfristig mehr Kontrolle als ein Baukasten gewünscht"
+      ],
+      "affiliate_url": null,
+      "mentioned_in_articles": ["website-fuer-freelancer"]
+    }
+  ]
+}

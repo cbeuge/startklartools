@@ -34,6 +34,42 @@ export type ToolLink = {
   kategorie_slug: string | null;
 };
 
+export type Preisstufe = { tier: string; price: string; note: string };
+
+export type ToolDetail = {
+  slug: string;
+  name: string;
+  short_code: string;
+  short_description: string;
+  beschreibung: string;
+  preise: Preisstufe[];
+  fuer_wen: string[];
+  preis_stand: string;
+  affiliate_url: string;
+  logo_url: string;
+  kategorie_name: string;
+  kategorie_slug: string;
+  oberkategorie_name: string | null;
+  oberkategorie_slug: string | null;
+};
+
+// Alle veröffentlichten Tools für die /tools-Seite, sortiert nach
+// Ober- und Unterkategorie.
+export function toolsFuerSeite(): Promise<ToolDetail[]> {
+  return query<ToolDetail>(`
+    SELECT t.slug, t.name, t.short_code, t.short_description, t.beschreibung,
+           t.preise, t.fuer_wen, t.preis_stand, t.affiliate_url, t.logo_url,
+           c.name AS kategorie_name, c.slug AS kategorie_slug,
+           pc.name AS oberkategorie_name, pc.slug AS oberkategorie_slug
+      FROM tools t
+      JOIN categories c ON c.id = t.category_id
+      LEFT JOIN categories pc ON pc.id = c.parent_id
+     WHERE t.status = 'veroeffentlicht' AND c.status = 'veroeffentlicht'
+     ORDER BY pc.sort_order NULLS FIRST, pc.name NULLS FIRST,
+              c.sort_order, c.name, t.name
+  `);
+}
+
 // Gemeinsame Spaltenliste für Guide-Karten. lesezeit_min: grobe Schätzung
 // aus der Wortzahl (200 Wörter/Minute), mindestens 1.
 const GUIDE_COLS = `

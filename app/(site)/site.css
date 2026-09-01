@@ -645,6 +645,118 @@
   color: var(--ink-soft);
 }
 
+/* /tools – ausführliche Übersicht */
+.site-shell .tools-intro {
+  max-width: 640px;
+  font-size: 15.5px;
+  color: var(--ink-soft);
+  margin-bottom: 40px;
+}
+.site-shell .tools-ober {
+  margin-top: 44px;
+}
+.site-shell .tools-ober > h3 {
+  font-size: 24px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.site-shell .tools-unter {
+  margin-top: 28px;
+}
+.site-shell .tools-unter-titel {
+  display: block;
+  font-size: 12px;
+  color: var(--stamp-dark);
+  margin-bottom: 14px;
+}
+.site-shell .tool-karte {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--white);
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+.site-shell .tool-karte-kopf {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.site-shell .tool-karte h4 {
+  font-family: var(--font-zilla), "Zilla Slab", serif;
+  font-weight: 600;
+  font-size: 19px;
+}
+.site-shell .tool-stand {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+.site-shell .tool-tagline {
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 8px;
+}
+.site-shell .tool-text {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+.site-shell .tool-preise {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-top: 16px;
+}
+.site-shell .tool-preise th,
+.site-shell .tool-preise td {
+  border-top: 1px dashed var(--line);
+  padding: 7px 0;
+  text-align: left;
+  vertical-align: top;
+}
+.site-shell .tool-preise th {
+  font-weight: 600;
+  padding-right: 16px;
+  white-space: nowrap;
+}
+.site-shell .tool-preise td:last-child {
+  color: var(--ink-soft);
+  padding-left: 16px;
+}
+.site-shell .tool-fuerwen {
+  margin-top: 16px;
+}
+.site-shell .tool-fuerwen .mono {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.site-shell .tool-fuerwen ul {
+  list-style: none;
+  font-size: 14px;
+}
+.site-shell .tool-fuerwen li {
+  padding: 3px 0 3px 18px;
+  position: relative;
+}
+.site-shell .tool-fuerwen li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--stamp);
+}
+.site-shell .tool-cta {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
 /* Tool-Empfehlungen im Artikel */
 .site-shell .tool-box {
   max-width: 720px;

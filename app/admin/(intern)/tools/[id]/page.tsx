@@ -26,6 +26,10 @@ export default async function ToolBearbeiten({
   const { gespeichert } = await searchParams;
   const basisUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "";
 
+  const preiseText = t.preise
+    .map((p) => [p.tier, p.price, p.note].filter(Boolean).join(" | "))
+    .join("\n");
+
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -108,6 +112,10 @@ export default async function ToolBearbeiten({
             logo_url: t.logo_url,
             commission_info: t.commission_info,
             notes: t.notes,
+            beschreibung: t.beschreibung,
+            preis_stand: t.preis_stand,
+            fuer_wen_text: t.fuer_wen.join("\n"),
+            preise_text: preiseText,
           }}
         />
       </div>

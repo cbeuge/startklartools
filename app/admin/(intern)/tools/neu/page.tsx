@@ -22,6 +22,10 @@ export default async function NeuesTool() {
             logo_url: "",
             commission_info: "",
             notes: "",
+            beschreibung: "",
+            preis_stand: "",
+            fuer_wen_text: "",
+            preise_text: "",
           }}
         />
       </div>

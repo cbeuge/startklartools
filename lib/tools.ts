@@ -3,6 +3,8 @@ import { query, queryOne } from "@/db/pool";
 
 export type ToolStatus = "entwurf" | "veroeffentlicht";
 
+export type Preisstufe = { tier: string; price: string; note: string };
+
 export type Tool = {
   id: number;
   slug: string;
@@ -15,6 +17,10 @@ export type Tool = {
   logo_url: string;
   commission_info: string;
   notes: string;
+  beschreibung: string;
+  preise: Preisstufe[];
+  fuer_wen: string[];
+  preis_stand: string;
   created_at: string;
   updated_at: string;
 };

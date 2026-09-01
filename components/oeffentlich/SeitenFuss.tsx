@@ -39,7 +39,7 @@ export function SeitenFuss({ themen }: { themen: OeffKategorie[] }) {
                 <Link href="/ratgeber">Guides</Link>
               </li>
               <li>
-                <Link href="/#tools">Tools</Link>
+                <Link href="/tools">Tools</Link>
               </li>
               <li>
                 <Link href="/werbekennzeichnung">Werbekennzeichnung</Link>

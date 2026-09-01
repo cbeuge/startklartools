@@ -22,6 +22,10 @@ export type ToolInitial = {
   logo_url: string;
   commission_info: string;
   notes: string;
+  beschreibung: string;
+  preis_stand: string;
+  fuer_wen_text: string;
+  preise_text: string;
 };
 
 export function ToolFormular({
@@ -52,6 +56,10 @@ export function ToolFormular({
   const [logoUrl, setLogoUrl] = useState(initial.logo_url);
   const [commissionInfo, setCommissionInfo] = useState(initial.commission_info);
   const [notes, setNotes] = useState(initial.notes);
+  const [beschreibung, setBeschreibung] = useState(initial.beschreibung);
+  const [preisStand, setPreisStand] = useState(initial.preis_stand);
+  const [fuerWenText, setFuerWenText] = useState(initial.fuer_wen_text);
+  const [preiseText, setPreiseText] = useState(initial.preise_text);
 
   const wirkslug = useMemo(
     () => (slugManuell ? slug : slugify(name)),
@@ -116,13 +124,17 @@ export function ToolFormular({
       </div>
 
       <label className="block">
-        <span className="text-sm text-slate-600">Affiliate-Link (Ziel)</span>
+        <span className="text-sm text-slate-600">
+          Affiliate-Link (Ziel){" "}
+          <span className="text-slate-400">
+            (Pflicht zum Veröffentlichen)
+          </span>
+        </span>
         <input
           name="affiliate_url"
           type="url"
           value={affiliateUrl}
           onChange={(e) => setAffiliateUrl(e.target.value)}
-          required
           placeholder="https://…"
           className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
         />
@@ -171,12 +183,70 @@ export function ToolFormular({
       </label>
 
       <label className="block">
-        <span className="text-sm text-slate-600">Kurzbeschreibung</span>
+        <span className="text-sm text-slate-600">
+          Kurzbeschreibung / Tagline{" "}
+          <span className="text-slate-400">(eine Zeile, im Artikel-Kasten)</span>
+        </span>
         <textarea
           name="short_description"
           value={shortDescription}
           onChange={(e) => setShortDescription(e.target.value)}
           rows={2}
+          className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
+        />
+      </label>
+
+      <label className="block">
+        <span className="text-sm text-slate-600">
+          Beschreibung <span className="text-slate-400">(für die /tools-Seite)</span>
+        </span>
+        <textarea
+          name="beschreibung"
+          value={beschreibung}
+          onChange={(e) => setBeschreibung(e.target.value)}
+          rows={4}
+          className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
+        />
+      </label>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-sm text-slate-600">
+            „Passt, wenn du …"{" "}
+            <span className="text-slate-400">(ein Punkt pro Zeile)</span>
+          </span>
+          <textarea
+            name="fuer_wen"
+            value={fuerWenText}
+            onChange={(e) => setFuerWenText(e.target.value)}
+            rows={4}
+            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+          />
+        </label>
+        <label className="block">
+          <span className="text-sm text-slate-600">
+            Preise{" "}
+            <span className="text-slate-400">
+              (pro Zeile: Stufe | Preis | Hinweis)
+            </span>
+          </span>
+          <textarea
+            name="preise"
+            value={preiseText}
+            onChange={(e) => setPreiseText(e.target.value)}
+            rows={4}
+            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 font-mono text-xs"
+          />
+        </label>
+      </div>
+
+      <label className="block sm:max-w-xs">
+        <span className="text-sm text-slate-600">Preis-Stand</span>
+        <input
+          name="preis_stand"
+          value={preisStand}
+          onChange={(e) => setPreisStand(e.target.value)}
+          placeholder="z.B. Preise geprüft 09/2026"
           className="mt-1 w-full rounded border border-slate-300 px-3 py-2"
         />
       </label>
