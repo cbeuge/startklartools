@@ -340,6 +340,16 @@
   align-items: center;
   justify-content: center;
 }
+.site-shell .theme-card .theme-icon {
+  display: block;
+  color: var(--stamp);
+  flex-shrink: 0;
+}
+.site-shell .theme-card .theme-icon svg {
+  display: block;
+  width: 42px;
+  height: 42px;
+}
 .site-shell .theme-card h3 {
   font-size: 17px;
   margin-top: 20px;

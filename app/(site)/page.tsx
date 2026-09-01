@@ -6,6 +6,7 @@ import {
   neuesteGuides,
   veroeffentlichteTools,
   kuerzel,
+  kategorieIcon,
   type ToolLink,
 } from "@/lib/oeffentlich";
 import { AffiliateHinweis } from "@/components/oeffentlich/AffiliateHinweis";
@@ -155,18 +156,28 @@ export default async function Startseite() {
               <h2>Fang da an, wo du gerade stehst</h2>
             </div>
             <div className="themen-grid">
-              {themen.map((t) => (
-                <Link
-                  key={t.id}
-                  className="theme-card"
-                  href={`/themen/${t.slug}`}
-                >
-                  <div className="code">{kuerzel(t.name)}</div>
-                  <div>
-                    <h3>{t.name}</h3>
-                  </div>
-                </Link>
-              ))}
+              {themen.map((t) => {
+                const icon = kategorieIcon(t.slug);
+                return (
+                  <Link
+                    key={t.id}
+                    className="theme-card"
+                    href={`/themen/${t.slug}`}
+                  >
+                    {icon ? (
+                      <span
+                        className="theme-icon"
+                        dangerouslySetInnerHTML={{ __html: icon }}
+                      />
+                    ) : (
+                      <div className="code">{kuerzel(t.name)}</div>
+                    )}
+                    <div>
+                      <h3>{t.name}</h3>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>

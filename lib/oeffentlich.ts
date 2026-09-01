@@ -1,5 +1,28 @@
 import "server-only";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { query, queryOne } from "@/db/pool";
+
+// Inline-SVG-Icon einer Kategorie aus public/icon-<slug>.svg. Inline, damit
+// currentColor auf die CSS-Farbe greift. null, wenn es keine Datei gibt –
+// dann fällt die Kachel auf das Zwei-Buchstaben-Kürzel zurück.
+const iconCache = new Map<string, string | null>();
+export function kategorieIcon(slug: string): string | null {
+  if (iconCache.has(slug)) return iconCache.get(slug) ?? null;
+  let svg: string | null = null;
+  if (/^[a-z0-9-]+$/.test(slug)) {
+    try {
+      svg = readFileSync(
+        path.join(process.cwd(), "public", `icon-${slug}.svg`),
+        "utf8",
+      );
+    } catch {
+      svg = null;
+    }
+  }
+  iconCache.set(slug, svg);
+  return svg;
+}
 
 export type OeffKategorie = {
   id: number;
