@@ -12,6 +12,7 @@ export function SeitenKopf() {
           <Link href="/#themen">Themen</Link>
           <Link href="/tools">Tools</Link>
           <Link href="/ratgeber">Guides</Link>
+          <Link href="/themen/news">News</Link>
         </nav>
         <div className="nav-right">
           <Link href="/#themen" className="nav-cta">

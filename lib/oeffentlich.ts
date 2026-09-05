@@ -141,11 +141,13 @@ const GUIDE_COLS = `
 `;
 
 // Veröffentlichte Oberkategorien für die Themen-Kacheln und den Footer.
+// "news" ausgenommen: die Kategorie hat einen eigenen Menüpunkt im Header
+// (/themen/news) statt als Thema in Kacheln/Filtern aufzutauchen.
 export function themenKategorien(): Promise<OeffKategorie[]> {
   return query<OeffKategorie>(`
     SELECT id, slug, name, parent_id, icon
       FROM categories
-     WHERE parent_id IS NULL AND status = 'veroeffentlicht'
+     WHERE parent_id IS NULL AND status = 'veroeffentlicht' AND slug <> 'news'
      ORDER BY sort_order, name
   `);
 }

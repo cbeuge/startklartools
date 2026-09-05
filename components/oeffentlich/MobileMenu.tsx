@@ -7,6 +7,7 @@ const links = [
   { href: "/#themen", label: "Themen" },
   { href: "/tools", label: "Tools" },
   { href: "/ratgeber", label: "Guides" },
+  { href: "/themen/news", label: "News" },
 ];
 
 export function MobileMenu() {
